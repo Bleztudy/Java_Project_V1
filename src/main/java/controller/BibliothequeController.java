@@ -58,7 +58,7 @@ public class BibliothequeController {
         
         // Initialiser la liste
         etudiantsList = FXCollections.observableArrayList();
-        
+
         // Ajouter des données fictives
         chargerDonneesFictives();
         
