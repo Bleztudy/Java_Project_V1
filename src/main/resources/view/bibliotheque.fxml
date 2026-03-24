@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+        fx:controller="controller.BibliothequeController">
+
+    <Label text="Gestion des étudiants" style="-fx-font-size: 20px;" />
+
+    <TableView fx:id="tableEtudiants" prefHeight="200" onMouseClicked="#chargerChampsSelection">
+        <columns>
+            <TableColumn fx:id="colNom" text="Nom" prefWidth="100"/>
+            <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="100"/>
+            <TableColumn fx:id="colEmail" text="Email" prefWidth="150"/>
+            <TableColumn fx:id="colFiliere" text="Filière" prefWidth="100"/>
+            <TableColumn fx:id="colNiveau" text="Niveau" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtNom" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Prénom:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtPrenom" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtEmail" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Filière:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtFiliere" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Niveau:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtNiveau" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10">
+        <Button text="Ajouter" onAction="#ajouterEtudiant"/>
+        <Button text="Modifier" onAction="#modifierEtudiant"/>
+        <Button text="Supprimer" onAction="#supprimerEtudiant"/>
+        <Button text="Rechercher" onAction="#rechercherEtudiant"/>
+    </HBox>
+
+</VBox>
