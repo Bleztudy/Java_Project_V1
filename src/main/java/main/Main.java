@@ -11,23 +11,17 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bibliotheque.fxml"));
         Scene scene = new Scene(loader.load());
-
-        stage.setTitle("Gestion Bibliothèque");
+        
+        stage.setTitle("Gestion de Bibliothèque");
         stage.setScene(scene);
+        stage.setWidth(1000);
+        stage.setHeight(750);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.show();
     }
 
     public static void main(String[] args) {
         launch(args);
-    }
-    
-    // Pour VSCode, ajoute ça pour le lancement direct
-    static {
-        // Configure JavaFX modules pour VSCode
-        try {
-            Class.forName("javafx.application.Application");
-        } catch (ClassNotFoundException e) {
-            System.err.println("JavaFX not found. Run with: mvn javafx:run");
-        }
     }
 }
