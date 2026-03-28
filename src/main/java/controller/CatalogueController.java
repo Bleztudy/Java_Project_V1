@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import utils.SceneManager;
-import exceptions.LivreIndisponibleException;
+
 
 import java.io.IOException;
 import java.util.List;
