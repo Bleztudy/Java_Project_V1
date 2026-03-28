@@ -1,9 +1,6 @@
 model\Livre.class
-database\DatabaseConnection.class
 model\Emprunt.class
 dao\EtudiantDAO.class
 model\Etudiant.class
-dao\EmpruntDAO.class
 dao\LivreDAO.class
-main\Main.class
 controller\BibliothequeController.class

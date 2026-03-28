@@ -2,44 +2,134 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
-        fx:controller="controller.BibliothequeController">
+VBox spacing="10" alignment="TOP_CENTER" 
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.BibliothequeController"
+      style="-fx-background-color: #f0f4f8; -fx-padding: 20;"
+      fx:id="rootPane">
 
-    <Label text="Gestion des étudiants" style="-fx-font-size: 20px;" />
-
-    <TableView fx:id="tableEtudiants" prefHeight="200" onMouseClicked="#chargerChampsSelection">
-        <columns>
-            <TableColumn fx:id="colNom" text="Nom" prefWidth="100"/>
-            <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="100"/>
-            <TableColumn fx:id="colEmail" text="Email" prefWidth="150"/>
-            <TableColumn fx:id="colFiliere" text="Filière" prefWidth="100"/>
-            <TableColumn fx:id="colNiveau" text="Niveau" prefWidth="100"/>
-        </columns>
-    </TableView>
-
-    <GridPane hgap="10" vgap="10">
-        <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtNom" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-        <Label text="Prénom:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtPrenom" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-        <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtEmail" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-        <Label text="Filière:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtFiliere" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-
-        <Label text="Niveau:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtNiveau" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-    </GridPane>
-
-    <HBox spacing="10">
-        <Button text="Ajouter" onAction="#ajouterEtudiant"/>
-        <Button text="Modifier" onAction="#modifierEtudiant"/>
-        <Button text="Supprimer" onAction="#supprimerEtudiant"/>
-        <Button text="Rechercher" onAction="#rechercherEtudiant"/>
+    <!-- Header avec titre et toggle mode sombre -->
+    <HBox alignment="CENTER">
+        <Label text="📚 Gestion de Bibliothèque Universitaire" 
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Region HBox.hgrow="ALWAYS" />
+        <ToggleButton fx:id="themeToggle" onAction="#toggleTheme" 
+                      style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 5 15;"/>
     </HBox>
+    
+    <Separator/>
+
+    <!-- TabPane pour les 3 sections -->
+    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+        
+        <!-- Onglet Gestion des Étudiants -->
+        <Tab text="👥 Étudiants" closable="false">
+            <VBox spacing="10" padding="15">
+                <Label text="Gestion des étudiants" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                
+                <TableView fx:id="tableEtudiants" prefHeight="300">
+                    <columns>
+                        <TableColumn fx:id="colIdEtudiant" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colNom" text="Nom" prefWidth="120"/>
+                        <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="120"/>
+                        <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                    </columns>
+                </TableView>
+                
+                <GridPane hgap="10" vgap="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNom" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    
+                    <Label text="Prénom:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtPrenom" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    
+                    <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtEmail" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
+                
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="➕ Ajouter" onAction="#ajouterEtudiant" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                    <Button text="✏️ Modifier" onAction="#modifierEtudiant" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                    <Button text="🗑️ Supprimer" onAction="#supprimerEtudiant" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    <Button text="🔍 Rechercher" onAction="#rechercherEtudiant" style="-fx-background-color: #f39c12; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+        </Tab>
+        
+        <!-- Onglet Gestion des Livres -->
+        <Tab text="📖 Livres" closable="false">
+            <VBox spacing="10" padding="15">
+                <Label text="Gestion des livres" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                
+                <TableView fx:id="tableLivres" prefHeight="300">
+                    <columns>
+                        <TableColumn fx:id="colIdLivre" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colTitre" text="Titre" prefWidth="200"/>
+                        <TableColumn fx:id="colAuteur" text="Auteur" prefWidth="150"/>
+                        <TableColumn fx:id="colCategorie" text="Catégorie" prefWidth="120"/>
+                        <TableColumn fx:id="colDisponible" text="Disponible" prefWidth="80"/>
+                    </columns>
+                </TableView>
+                
+                <GridPane hgap="10" vgap="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtTitre" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    
+                    <Label text="Auteur:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtAuteur" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    
+                    <Label text="Catégorie:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtCategorie" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    
+                    <Label text="Disponible:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <CheckBox fx:id="chkDisponible" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                </GridPane>
+                
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="➕ Ajouter" onAction="#ajouterLivre" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                    <Button text="✏️ Modifier" onAction="#modifierLivre" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                    <Button text="🗑️ Supprimer" onAction="#supprimerLivre" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    <Button text="🔍 Rechercher" onAction="#rechercherLivre" style="-fx-background-color: #f39c12; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+        </Tab>
+        
+        <!-- Onglet Gestion des Emprunts -->
+        <Tab text="🔄 Emprunts" closable="false">
+            <VBox spacing="10" padding="15">
+                <Label text="Gestion des emprunts" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                
+                <TableView fx:id="tableEmprunts" prefHeight="250">
+                    <columns>
+                        <TableColumn fx:id="colIdEmprunt" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colEtudiant" text="Étudiant" prefWidth="150"/>
+                        <TableColumn fx:id="colLivre" text="Livre" prefWidth="200"/>
+                        <TableColumn fx:id="colDateEmprunt" text="Date d'emprunt" prefWidth="120"/>
+                        <TableColumn fx:id="colDateRetour" text="Date de retour" prefWidth="120"/>
+                    </columns>
+                </TableView>
+                
+                <GridPane hgap="10" vgap="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="Étudiant:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="comboEtudiant" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="250"/>
+                    
+                    <Label text="Livre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="comboLivre" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250"/>
+                    
+                    <Label text="Date d'emprunt:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="dateEmprunt" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
+                
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="📖 Emprunter" onAction="#emprunterLivre" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 10 20;"/>
+                    <Button text="↩️ Retourner" onAction="#retournerLivre" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 10 20;"/>
+                    <Button text="🔄 Actualiser" onAction="#actualiserEmprunts" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 20;"/>
+                </HBox>
+            </VBox>
+        </Tab>
+        
+    </TabPane>
 
 </VBox>
