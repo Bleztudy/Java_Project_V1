@@ -1,0 +1,209 @@
+* {
+    -fx-font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 15 20;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.logo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ecf0f1;
+}
+
+.nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 14px;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+
+.nav-btn:hover {
+    -fx-background-color: #34495e;
+    -fx-background-radius: 5;
+}
+
+.theme-btn {
+    -fx-background-color: #34495e;
+    -fx-text-fill: #ecf0f1;
+    -fx-background-radius: 20;
+    -fx-padding: 5 15;
+    -fx-cursor: hand;
+}
+
+/* Carrousel */
+.carousel-container {
+    -fx-background-color: #1a2632;
+}
+
+.carousel-bg {
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.hero-content {
+    -fx-background-color: rgba(0,0,0,0.6);
+    -fx-padding: 60;
+    -fx-alignment: center;
+}
+
+.hero-title {
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-fill: white;
+}
+
+.hero-subtitle {
+    -fx-font-size: 18px;
+    -fx-fill: #ecf0f1;
+}
+
+.hero-btn {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 30;
+    -fx-background-radius: 30;
+    -fx-cursor: hand;
+}
+
+.hero-btn:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* Statistiques */
+.stats-container {
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-padding: 20 40;
+    -fx-background-radius: 15;
+}
+
+.stat-number {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-fill: #e74c3c;
+}
+
+.stat-label {
+    -fx-font-size: 14px;
+    -fx-fill: #bdc3c7;
+}
+
+/* Catalogue */
+.page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 20;
+}
+
+.search-bar {
+    -fx-padding: 0 20 20 20;
+}
+
+.search-bar TextField {
+    -fx-padding: 10;
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+}
+
+.books-grid {
+    -fx-padding: 20;
+}
+
+.book-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+    -fx-pref-width: 200;
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.book-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 8);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.book-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+.book-author {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7f8c8d;
+}
+
+.book-actions {
+    -fx-spacing: 5;
+    -fx-alignment: center;
+}
+
+.btn-wishlist {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-background-radius: 20;
+}
+
+.btn-read {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-background-radius: 20;
+}
+
+.btn-borrow {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-background-radius: 20;
+}
+
+/* Emprunt */
+.emprunt-container {
+    -fx-padding: 30;
+}
+
+.form-container {
+    -fx-background-color: white;
+    -fx-padding: 25;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.section-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.btn-primary {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 25;
+    -fx-cursor: hand;
+}
+
+.btn-return {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-padding: 5 15;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}

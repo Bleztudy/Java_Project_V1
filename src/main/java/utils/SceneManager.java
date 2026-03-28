@@ -17,7 +17,7 @@ public class SceneManager {
         Scene scene = new Scene(loader.load());
         scene.getStylesheets().add(SceneManager.class.getResource("/view/styles.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Bibliothèque - Accueil");
+        primaryStage.setTitle("BiblioTech - Accueil");
         primaryStage.show();
     }
     
@@ -26,7 +26,7 @@ public class SceneManager {
         Scene scene = new Scene(loader.load());
         scene.getStylesheets().add(SceneManager.class.getResource("/view/styles.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Bibliothèque - Catalogue");
+        primaryStage.setTitle("BiblioTech - Catalogue");
         primaryStage.show();
     }
     
@@ -35,7 +35,16 @@ public class SceneManager {
         Scene scene = new Scene(loader.load());
         scene.getStylesheets().add(SceneManager.class.getResource("/view/styles.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Bibliothèque - Emprunter");
+        primaryStage.setTitle("BiblioTech - Emprunts");
+        primaryStage.show();
+    }
+    
+    public static void showBibliotheque() throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/bibliotheque.fxml"));
+        Scene scene = new Scene(loader.load());
+        scene.getStylesheets().add(SceneManager.class.getResource("/view/styles.css").toExternalForm());
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("BiblioTech - Administration");
         primaryStage.show();
     }
 }

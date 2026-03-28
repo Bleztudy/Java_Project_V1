@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.EmpruntController" stylesheets="@styles.css">
+    
+    <HBox styleClass="navbar">
+        <Label text="📚 BiblioTech" styleClass="logo" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button text="Accueil" styleClass="nav-btn" onAction="#goToAccueil" />
+        <Button text="Catalogue" styleClass="nav-btn" onAction="#goToCatalogue" />
+        <Button text="Emprunts" styleClass="nav-btn" onAction="#goToEmprunt" />
+        <Button text="Admin" styleClass="nav-btn" onAction="#goToAdmin" />
+        <ToggleButton fx:id="themeToggle" onAction="#toggleTheme" text="🌙" styleClass="theme-btn" />
+    </HBox>
+    
+    <HBox spacing="30" VBox.vgrow="ALWAYS" styleClass="emprunt-container">
+        
+        <!-- Formulaire d'emprunt -->
+        <VBox spacing="20" styleClass="form-container" HBox.hgrow="ALWAYS">
+            <Label text="📝 Nouvel emprunt" styleClass="section-title" />
+            
+            <VBox spacing="10">
+                <Label text="Choisir un étudiant" />
+                <ComboBox fx:id="comboEtudiant" prefWidth="300" promptText="Sélectionner un étudiant" />
+                
+                <Label text="Choisir un livre" />
+                <ComboBox fx:id="comboLivre" prefWidth="300" promptText="Sélectionner un livre" />
+                
+                <Label text="Date de retour (max 7 jours)" />
+                <DatePicker fx:id="dateRetour" prefWidth="300" />
+                
+                <Button text="📖 Emprunter" onAction="#emprunterLivre" styleClass="btn-primary" />
+            </VBox>
+        </VBox>
+        
+        <!-- Liste des emprunts en cours -->
+        <VBox spacing="20" styleClass="emprunts-list" HBox.hgrow="ALWAYS">
+            <Label text="📋 Emprunts en cours" styleClass="section-title" />
+            <TableView fx:id="tableEmprunts" prefHeight="400" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50" />
+                    <TableColumn fx:id="colEtudiant" text="Étudiant" prefWidth="150" />
+                    <TableColumn fx:id="colLivre" text="Livre" prefWidth="200" />
+                    <TableColumn fx:id="colDateEmprunt" text="Date emprunt" prefWidth="120" />
+                    <TableColumn fx:id="colDateRetour" text="Date retour" prefWidth="120" />
+                    <TableColumn fx:id="colAction" text="Action" prefWidth="80" />
+                </columns>
+            </TableView>
+        </VBox>
+        
+    </HBox>
+    
+</VBox>
