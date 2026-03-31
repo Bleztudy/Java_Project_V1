@@ -12,39 +12,44 @@ public class SceneManager {
         primaryStage = stage;
     }
     
-    public static void showAccueil() throws IOException {
-        FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/accueil.fxml"));
+    private static void loadScene(String fxmlPath, String title) throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
         Scene scene = new Scene(loader.load());
         scene.getStylesheets().add(SceneManager.class.getResource("/view/styles.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("BiblioTech - Accueil");
-        primaryStage.show();
+        primaryStage.setTitle(title);
+        primaryStage.setWidth(1128);
+        primaryStage.setHeight(812);
+        
+        // Ajouter une transition de fondu
+        scene.setFill(null);
+    }
+    
+    public static void showAccueil() throws IOException {
+        loadScene("/view/accueil.fxml", "BiblioTech - Accueil");
     }
     
     public static void showCatalogue() throws IOException {
-        FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/catalogue.fxml"));
-        Scene scene = new Scene(loader.load());
-        scene.getStylesheets().add(SceneManager.class.getResource("/view/styles.css").toExternalForm());
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("BiblioTech - Catalogue");
-        primaryStage.show();
+        loadScene("/view/catalogue.fxml", "BiblioTech - Catalogue");
     }
     
     public static void showEmprunt() throws IOException {
-        FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/emprunt.fxml"));
-        Scene scene = new Scene(loader.load());
-        scene.getStylesheets().add(SceneManager.class.getResource("/view/styles.css").toExternalForm());
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("BiblioTech - Emprunts");
-        primaryStage.show();
+        loadScene("/view/emprunt.fxml", "BiblioTech - Emprunts");
     }
     
     public static void showBibliotheque() throws IOException {
-        FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/bibliotheque.fxml"));
-        Scene scene = new Scene(loader.load());
-        scene.getStylesheets().add(SceneManager.class.getResource("/view/styles.css").toExternalForm());
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("BiblioTech - Administration");
-        primaryStage.show();
+        loadScene("/view/bibliotheque.fxml", "BiblioTech - Administration");
     }
+    
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public static void showAdminLogin() throws IOException {
+    loadScene("/view/admin_login.fxml", "BiblioTech - Administration");
+}
+
+    public static void showAdminDashboard() throws IOException {
+        loadScene("/view/admin_dashboard.fxml", "BiblioTech - Administration");
+}
 }
