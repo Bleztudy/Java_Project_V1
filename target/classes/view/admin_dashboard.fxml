@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.AdminDashboardController" stylesheets="@styles.css" styleClass="admin-dashboard">
+    
+    <!-- Sidebar -->
+    <VBox styleClass="admin-sidebar" spacing="20">
+        <Label text="📚 BiblioTech Admin" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+        
+        <Separator style="-fx-background-color: #34495e;" />
+        
+        <!-- Informations utilisateur -->
+        <VBox styleClass="admin-info">
+            <Label text="👤 Administrateur" styleClass="info-label" />
+            <Label fx:id="adminName" text="-" styleClass="info-value" />
+        </VBox>
+        
+        <VBox styleClass="admin-info">
+            <Label text="🕐 Connexion actuelle" styleClass="info-label" />
+            <Label fx:id="currentLogin" text="-" styleClass="info-value" />
+        </VBox>
+        
+        <VBox styleClass="admin-info">
+            <Label text="📅 Dernière connexion" styleClass="info-label" />
+            <Label fx:id="lastLogin" text="-" styleClass="info-value" />
+        </VBox>
+        
+        <Separator style="-fx-background-color: #34495e;" />
+        
+        <!-- Sélecteur de thèmes -->
+        <VBox styleClass="theme-selector">
+            <Label text="🎨 Thèmes" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+            <ComboBox fx:id="themeCombo" styleClass="theme-combo" onAction="#changeTheme">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="light" />
+                        <String fx:value="dark" />
+                        <String fx:value="ocean" />
+                        <String fx:value="sunset" />
+                        <String fx:value="forest" />
+                        <String fx:value="midnight" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </VBox>
+        
+        <Region VBox.vgrow="ALWAYS" />
+        
+        <!-- Bouton déconnexion -->
+        <Button text="🚪 Déconnexion" onAction="#handleLogout" styleClass="logout-btn" />
+        
+    </VBox>
+    
+    <!-- Contenu principal -->
+    <VBox styleClass="admin-content" HBox.hgrow="ALWAYS" spacing="20">
+        <Label text="👥 Gestion des étudiants" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        <TableView fx:id="tableEtudiants" prefHeight="250" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colIdEtudiant" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="colNom" text="Nom" prefWidth="120"/>
+                <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="120"/>
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+            </columns>
+        </TableView>
+        
+        <GridPane hgap="10" vgap="10">
+            <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtNom" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Prénom:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtPrenom" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtEmail" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        </GridPane>
+        
+        <HBox spacing="10">
+            <Button text="Ajouter" onAction="#ajouterEtudiant" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20;"/>
+            <Button text="Modifier" onAction="#modifierEtudiant" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20;"/>
+            <Button text="Supprimer" onAction="#supprimerEtudiant" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20;"/>
+        </HBox>
+        
+        <Separator />
+        
+        <Label text="📖 Gestion des livres" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        <TableView fx:id="tableLivres" prefHeight="250" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colIdLivre" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="colTitre" text="Titre" prefWidth="200"/>
+                <TableColumn fx:id="colAuteur" text="Auteur" prefWidth="150"/>
+                <TableColumn fx:id="colCategorie" text="Catégorie" prefWidth="120"/>
+                <TableColumn fx:id="colDisponible" text="Disponible" prefWidth="80"/>
+            </columns>
+        </TableView>
+        
+        <GridPane hgap="10" vgap="10">
+            <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtTitre" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Auteur:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtAuteur" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Catégorie:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtCategorie" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Disponible:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <CheckBox fx:id="chkDisponible" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        </GridPane>
+        
+        <HBox spacing="10">
+            <Button text="Ajouter" onAction="#ajouterLivre" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20;"/>
+            <Button text="Modifier" onAction="#modifierLivre" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20;"/>
+            <Button text="Supprimer" onAction="#supprimerLivre" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20;"/>
+        </HBox>
+    </VBox>
+    
+</HBox>
