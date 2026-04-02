@@ -2,32 +2,28 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
 
-<VBox fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.CatalogueController" stylesheets="@styles.css">
-    
+<VBox fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.CatalogueController" stylesheets="@styles.css" style="-fx-background-color: #f0f4f8;">
+
     <HBox styleClass="navbar">
-        <Label text="📚 BiblioTech" styleClass="logo" />
+        <Label text="📚 BiblioTech" styleClass="logo"/>
         <Region HBox.hgrow="ALWAYS" />
-        <Button text="Accueil" styleClass="nav-btn" onAction="#goToAccueil" />
-        <Button text="Catalogue" styleClass="nav-btn" onAction="#goToCatalogue" />
-        <Button text="Emprunts" styleClass="nav-btn" onAction="#goToEmprunt" />
-        <Button text="Admin" styleClass="nav-btn" onAction="#goToAdmin" />
-        <ToggleButton fx:id="themeToggle" onAction="#toggleTheme" text="🌙" styleClass="theme-btn" />
+        <Button text="Accueil" styleClass="nav-btn" onAction="#goToAccueil"/>
+        <Button text="Catalogue" styleClass="nav-btn" onAction="#goToCatalogue"/>
+        <Button text="Admin" styleClass="nav-btn-admin" onAction="#goToAdmin"/>
     </HBox>
     
     <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
-        <VBox spacing="20" styleClass="catalogue-container">
-            <Label text="📖 Catalogue des livres" styleClass="page-title" />
+        <VBox spacing="20" style="-fx-padding: 20;">
+            <Text text="📖 Catalogue des livres" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
             
-            <!-- Barre de recherche -->
-            <HBox spacing="10" styleClass="search-bar">
-                <TextField fx:id="searchField" promptText="Rechercher un livre..." HBox.hgrow="ALWAYS" />
-                <Button text="🔍 Rechercher" onAction="#rechercherLivres" />
+            <HBox spacing="10">
+                <TextField fx:id="searchField" promptText="Rechercher un livre..." HBox.hgrow="ALWAYS" style="-fx-padding: 10; -fx-background-radius: 25; -fx-border-radius: 25;"/>
+                <Button text="🔍 Rechercher" onAction="#rechercherLivres" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 10 25; -fx-background-radius: 25; -fx-cursor: hand;"/>
             </HBox>
             
-            <!-- Grille de livres (FlowPane pour les vignettes) -->
-            <FlowPane fx:id="livresGrid" hgap="20" vgap="20" alignment="CENTER" styleClass="books-grid" />
+            <FlowPane fx:id="livresGrid" hgap="20" vgap="20" alignment="CENTER"/>
             
         </VBox>
     </ScrollPane>

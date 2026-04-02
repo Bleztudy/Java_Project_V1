@@ -3,15 +3,10 @@ package controller;
 import dao.AdminDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import utils.SceneManager;
 import java.io.IOException;
 
-
 public class AdminLoginController {
-    
-    @FXML
-    private VBox rootPane;
     
     @FXML
     private TextField usernameField;
@@ -29,6 +24,16 @@ public class AdminLoginController {
         adminDAO = new AdminDAO();
     }
     
+    @FXML
+    private void goBack() throws IOException {
+        SceneManager.showAccueil();
+    }
+    
+    @FXML
+    private void goToAdmin() throws IOException {
+        SceneManager.showAdminLogin();
+    }
+
     @FXML
     private void handleLogin() throws IOException {
         String username = usernameField.getText();

@@ -1,11 +1,10 @@
 package controller;
 
+import dao.EmpruntDAO;
 import dao.EtudiantDAO;
 import dao.LivreDAO;
-import dao.EmpruntDAO;
 import javafx.animation.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -32,19 +31,17 @@ public class AccueilController {
     @FXML
     private Text statEmprunts;
     
-    @FXML
-    private ToggleButton themeToggle;
-    
     private LivreDAO livreDAO;
     private EtudiantDAO etudiantDAO;
     private EmpruntDAO empruntDAO;
-    private int currentImageIndex = 0;
+    private int currentIndex = 0;
     private Timeline carouselTimeline;
     
-    private final List<String> carouselImages = Arrays.asList(
-        "https://picsum.photos/id/20/1920/1080",  // Bibliothèque
-        "https://picsum.photos/id/24/1920/1080",  // Livres
-        "https://picsum.photos/id/26/1920/1080"   // Lecture
+    private final List<String> carouselColors = Arrays.asList(
+        "#667eea",
+        "#f093fb",
+        "#4facfe",
+        "#43e97b"
     );
     
     @FXML
@@ -55,40 +52,40 @@ public class AccueilController {
         
         chargerStatistiques();
         demarrerCarrousel();
-        appliquerThemeClair();
-        
-        themeToggle.setText("🌙");
-        themeToggle.setOnAction(e -> toggleTheme());
     }
     
     private void chargerStatistiques() {
-        statLivres.setText(String.valueOf(livreDAO.getAllLivres().size()));
-        statEtudiants.setText(String.valueOf(etudiantDAO.getAllEtudiants().size()));
-        statEmprunts.setText(String.valueOf(empruntDAO.getEmpruntsEnCours().size()));
+        try {
+            statLivres.setText(String.valueOf(livreDAO.getAllLivres().size()));
+            statEtudiants.setText(String.valueOf(etudiantDAO.getAllEtudiants().size()));
+            statEmprunts.setText(String.valueOf(empruntDAO.getEmpruntsEnCours().size()));
+        } catch (Exception e) {
+            statLivres.setText("0");
+            statEtudiants.setText("0");
+            statEmprunts.setText("0");
+        }
     }
     
     private void demarrerCarrousel() {
+        appliquerCarrouselItem(0);
+        
         carouselTimeline = new Timeline(
-            new KeyFrame(Duration.seconds(5), event -> changerImage())
+            new KeyFrame(Duration.seconds(4), event -> {
+                currentIndex = (currentIndex + 1) % carouselColors.size();
+                appliquerCarrouselItem(currentIndex);
+            })
         );
         carouselTimeline.setCycleCount(Timeline.INDEFINITE);
         carouselTimeline.play();
-        
-        // Appliquer la première image
-        changerImage();
     }
     
-    private void changerImage() {
-        String imageUrl = carouselImages.get(currentImageIndex);
-        carouselPane.setStyle("-fx-background-image: url('" + imageUrl + "'); -fx-background-size: cover; -fx-background-position: center;");
+    private void appliquerCarrouselItem(int index) {
+        carouselPane.setStyle("-fx-background-color: " + carouselColors.get(index) + ";");
         
-        // Animation de fondu
-        FadeTransition fade = new FadeTransition(Duration.seconds(1), carouselPane);
-        fade.setFromValue(0.8);
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), carouselPane);
+        fade.setFromValue(0.7);
         fade.setToValue(1);
         fade.play();
-        
-        currentImageIndex = (currentImageIndex + 1) % carouselImages.size();
     }
     
     @FXML
@@ -102,32 +99,7 @@ public class AccueilController {
     }
     
     @FXML
-    private void goToEmprunt() throws IOException {
-        SceneManager.showEmprunt();
-    }
-    
-    @FXML
     private void goToAdmin() throws IOException {
-        // Pour la gestion admin (CRUD complet)
-        SceneManager.showBibliotheque();
-    }
-    
-    @FXML
-    private void toggleTheme() {
-        if (themeToggle.getText().equals("🌙")) {
-            appliquerThemeSombre();
-            themeToggle.setText("☀️");
-        } else {
-            appliquerThemeClair();
-            themeToggle.setText("🌙");
-        }
-    }
-    
-    private void appliquerThemeClair() {
-        rootPane.setStyle("-fx-background-color: #f0f4f8;");
-    }
-    
-    private void appliquerThemeSombre() {
-        rootPane.setStyle("-fx-background-color: #1a2632;");
+        SceneManager.showAdminLogin();
     }
 }

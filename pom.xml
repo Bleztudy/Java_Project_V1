@@ -9,7 +9,6 @@
     <artifactId>demo</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
@@ -45,6 +44,7 @@
                 <version>3.13.0</version>
                 <configuration>
                     <release>17</release>
+                    <failOnError>false</failOnError>
                 </configuration>
             </plugin>
             

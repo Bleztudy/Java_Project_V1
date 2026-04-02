@@ -3,46 +3,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.effect.*?>
 
-<VBox fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.AccueilController" stylesheets="@styles.css">
-    
-    <!-- Barre de navigation -->
+<VBox fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.AccueilController" stylesheets="@styles.css" style="-fx-background-color: #f0f4f8;">
+
     <HBox styleClass="navbar">
-        <Label text="📚 BiblioTech" styleClass="logo" />
+        <Label text="📚 BiblioTech" styleClass="logo"/>
         <Region HBox.hgrow="ALWAYS" />
-        <Button text="Accueil" styleClass="nav-btn" onAction="#goToAccueil" />
-        <Button text="Catalogue" styleClass="nav-btn" onAction="#goToCatalogue" />
-        <Button text="Emprunts" styleClass="nav-btn" onAction="#goToEmprunt" />
-        <Button text="Admin" styleClass="nav-btn" onAction="#goToAdmin" />
-        <ToggleButton fx:id="themeToggle" onAction="#toggleTheme" text="🌙" styleClass="theme-btn" />
+        <Button text="Accueil" styleClass="nav-btn" onAction="#goToAccueil"/>
+        <Button text="Catalogue" styleClass="nav-btn" onAction="#goToCatalogue"/>
+        <Button text="Admin" styleClass="nav-btn-admin" onAction="#goToAdmin"/>
     </HBox>
     
-    <!-- Carrousel background (StackPane pour overlay) -->
-    <StackPane VBox.vgrow="ALWAYS" styleClass="carousel-container">
-        <StackPane fx:id="carouselPane" styleClass="carousel-bg">
-            <!-- Les images seront ajoutées dynamiquement -->
-        </StackPane>
-        
-        <!-- Contenu par-dessus le carrousel -->
-        <VBox alignment="CENTER" spacing="30" styleClass="hero-content">
-            <Text text="Bienvenue à la Bibliothèque" styleClass="hero-title" />
-            <Text text="Découvrez, empruntez et lisez des milliers de livres" styleClass="hero-subtitle" />
-            <Button text="📖 Lire un livre" styleClass="hero-btn" onAction="#goToCatalogue" />
+    <StackPane fx:id="carouselPane" VBox.vgrow="ALWAYS">
+        <VBox styleClass="hero-content" alignment="CENTER" spacing="30">
+            <Text text="Bienvenue à la Bibliothèque" styleClass="hero-title"/>
+            <Text text="Découvrez, empruntez et lisez des milliers de livres" styleClass="hero-subtitle"/>
+            <Button text="📖 Lire un livre" styleClass="hero-btn" onAction="#goToCatalogue"/>
             
-            <!-- Statistiques -->
-            <HBox spacing="50" styleClass="stats-container">
+            <HBox styleClass="stats-container" spacing="50">
                 <VBox alignment="CENTER">
-                    <Text fx:id="statLivres" text="0" styleClass="stat-number" />
-                    <Text text="Livres disponibles" styleClass="stat-label" />
+                    <Text fx:id="statLivres" text="0" styleClass="stat-number"/>
+                    <Text text="Livres disponibles" styleClass="stat-label"/>
                 </VBox>
                 <VBox alignment="CENTER">
-                    <Text fx:id="statEtudiants" text="0" styleClass="stat-number" />
-                    <Text text="Étudiants inscrits" styleClass="stat-label" />
+                    <Text fx:id="statEtudiants" text="0" styleClass="stat-number"/>
+                    <Text text="Étudiants inscrits" styleClass="stat-label"/>
                 </VBox>
                 <VBox alignment="CENTER">
-                    <Text fx:id="statEmprunts" text="0" styleClass="stat-number" />
-                    <Text text="Emprunts en cours" styleClass="stat-label" />
+                    <Text fx:id="statEmprunts" text="0" styleClass="stat-number"/>
+                    <Text text="Emprunts en cours" styleClass="stat-label"/>
                 </VBox>
             </HBox>
         </VBox>

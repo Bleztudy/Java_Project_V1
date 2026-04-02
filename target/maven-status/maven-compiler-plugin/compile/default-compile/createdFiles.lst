@@ -1,9 +1,11 @@
 controller\EmpruntController.class
 exceptions\LivreIndisponibleException.class
+dao\AdminDAO.class
 dao\EmpruntDAO.class
 main\Main.class
 controller\BibliothequeController.class
 controller\EmpruntController$1.class
+controller\AdminDashboardController.class
 utils\SceneManager.class
 dao\LivreDAO.class
 controller\AccueilController.class
@@ -11,7 +13,8 @@ controller\CatalogueController.class
 exceptions\DateEmpruntInvalideException.class
 model\Emprunt.class
 exceptions\UtilisateurNonTrouveException.class
-controller\EmpruntController$2.class
+utils\ThemeManager.class
+controller\AdminLoginController.class
 model\Livre.class
 database\DatabaseConnection.class
 dao\EtudiantDAO.class

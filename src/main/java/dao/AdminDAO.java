@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AdminDAO {
-    // Simuler une base de données d'administrateurs
     private static Map<String, String> admins = new HashMap<>();
     private static Map<String, String> lastLogins = new HashMap<>();
     
