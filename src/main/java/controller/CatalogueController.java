@@ -4,10 +4,10 @@ import dao.LivreDAO;
 import model.Livre;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import utils.SceneManager;
-
 
 import java.io.IOException;
 import java.util.List;
@@ -23,9 +23,6 @@ public class CatalogueController {
     @FXML
     private TextField searchField;
     
-    @FXML
-    private ToggleButton themeToggle;
-    
     private LivreDAO livreDAO;
     private List<Livre> tousLesLivres;
     
@@ -34,10 +31,6 @@ public class CatalogueController {
         livreDAO = new LivreDAO();
         tousLesLivres = livreDAO.getAllLivres();
         afficherLivres(tousLesLivres);
-        appliquerThemeClair();
-        
-        themeToggle.setText("🌙");
-        themeToggle.setOnAction(e -> toggleTheme());
     }
     
     private void afficherLivres(List<Livre> livres) {
@@ -51,66 +44,30 @@ public class CatalogueController {
     
     private VBox creerCarteLivre(Livre livre) {
         VBox card = new VBox(10);
-        card.getStyleClass().add("book-card");
+        card.setStyle("-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-pref-width: 220; -fx-alignment: center;");
         
-        // Emoji représentant le livre
         Text emoji = new Text(livre.isDisponible() ? "📖" : "🔒");
         emoji.setStyle("-fx-font-size: 48px;");
         
         Text titre = new Text(livre.getTitre());
-        titre.getStyleClass().add("book-title");
+        titre.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #2c3e50; -fx-wrap-text: true;");
         
         Text auteur = new Text("Par " + livre.getAuteur());
-        auteur.getStyleClass().add("book-author");
+        auteur.setStyle("-fx-font-size: 12px; -fx-fill: #7f8c8d;");
         
-        Text categorie = new Text(livre.getCategorie() != null ? livre.getCategorie() : "Général");
-        categorie.setStyle("-fx-font-size: 10px; -fx-fill: #7f8c8d;");
+        Text statut = new Text(livre.isDisponible() ? "Disponible" : "Emprunté");
+        statut.setStyle("-fx-background-color: " + (livre.isDisponible() ? "#27ae60" : "#e74c3c") + "; -fx-text-fill: white; -fx-padding: 4 12; -fx-background-radius: 20; -fx-font-size: 11px; -fx-font-weight: bold;");
         
-        HBox actions = new HBox(5);
-        actions.getStyleClass().add("book-actions");
+        // Note : On enlève le bouton Emprunter car maintenant c'est l'admin qui gère les emprunts
+        // L'utilisateur normal ne peut pas emprunter directement
         
-        Button wishlistBtn = new Button("❤️");
-        wishlistBtn.getStyleClass().add("btn-wishlist");
-        wishlistBtn.setOnAction(e -> ajouterWishlist(livre));
+        card.getChildren().addAll(emoji, titre, auteur, statut);
         
-        Button readBtn = new Button("📖 Lire");
-        readBtn.getStyleClass().add("btn-read");
-        readBtn.setOnAction(e -> lireLivre(livre));
+        // Hover effect
+        card.setOnMouseEntered(event -> card.setStyle("-fx-background-color: #f8f9fa; -fx-background-radius: 15; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 20, 0, 0, 10); -fx-pref-width: 220; -fx-alignment: center; -fx-scale-x: 1.02; -fx-scale-y: 1.02;"));
+        card.setOnMouseExited(event -> card.setStyle("-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-pref-width: 220; -fx-alignment: center;"));
         
-        Button borrowBtn = new Button("📚 Emprunter");
-        borrowBtn.getStyleClass().add("btn-borrow");
-        borrowBtn.setDisable(!livre.isDisponible());
-        borrowBtn.setOnAction(e -> {
-            try {
-                emprunterLivre(livre);
-            } catch (IOException ex) {
-                showAlert("Erreur", "Impossible d'accéder à la page d'emprunt", Alert.AlertType.ERROR);
-            }
-        });
-        
-        actions.getChildren().addAll(wishlistBtn, readBtn, borrowBtn);
-        
-        card.getChildren().addAll(emoji, titre, auteur, categorie, actions);
         return card;
-    }
-    
-    private void ajouterWishlist(Livre livre) {
-        showAlert("Wishlist", livre.getTitre() + " a été ajouté à votre wishlist !", Alert.AlertType.INFORMATION);
-    }
-    
-    private void lireLivre(Livre livre) {
-        showAlert("Lecture", "Ouverture de \"" + livre.getTitre() + "\"...", Alert.AlertType.INFORMATION);
-        // Ici tu pourrais ouvrir un lecteur PDF ou une nouvelle fenêtre
-    }
-    
-    private void emprunterLivre(Livre livre) throws IOException {
-        if (!livre.isDisponible()) {
-            showAlert("Erreur", "Ce livre n'est pas disponible", Alert.AlertType.ERROR);
-            return;
-        }
-        // Stocker le livre sélectionné pour le formulaire d'emprunt
-        EmpruntController.setLivreSelectionne(livre);
-        SceneManager.showEmprunt();
     }
     
     @FXML
@@ -121,9 +78,6 @@ public class CatalogueController {
         } else {
             List<Livre> resultats = livreDAO.rechercherLivres(recherche);
             afficherLivres(resultats);
-            if (resultats.isEmpty()) {
-                showAlert("Info", "Aucun livre trouvé", Alert.AlertType.INFORMATION);
-            }
         }
     }
     
@@ -138,39 +92,7 @@ public class CatalogueController {
     }
     
     @FXML
-    private void goToEmprunt() throws IOException {
-        SceneManager.showEmprunt();
-    }
-    
-    @FXML
     private void goToAdmin() throws IOException {
-        SceneManager.showBibliotheque();
-    }
-    
-    @FXML
-    private void toggleTheme() {
-        if (themeToggle.getText().equals("🌙")) {
-            appliquerThemeSombre();
-            themeToggle.setText("☀️");
-        } else {
-            appliquerThemeClair();
-            themeToggle.setText("🌙");
-        }
-    }
-    
-    private void appliquerThemeClair() {
-        rootPane.setStyle("-fx-background-color: #f0f4f8;");
-    }
-    
-    private void appliquerThemeSombre() {
-        rootPane.setStyle("-fx-background-color: #1a2632;");
-    }
-    
-    private void showAlert(String titre, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(titre);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        SceneManager.showAdminLogin();
     }
 }

@@ -1,33 +1,21 @@
+/* styles.css - Version complète avec tous les effets */
+
 * {
     -fx-font-family: 'Segoe UI', 'Arial', sans-serif;
 }
 
-/* Animation de transition */
-.root {
-    -fx-transition: all 0.3s ease-in-out;
-}
-
-/* Navbar */
+/* Navigation */
 .navbar {
     -fx-background-color: #2c3e50;
     -fx-padding: 15 20;
     -fx-spacing: 15;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
-    -fx-transition: all 0.3s ease;
 }
 
 .logo {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
     -fx-text-fill: #ecf0f1;
-    -fx-cursor: hand;
-    -fx-transition: all 0.3s ease;
-}
-
-.logo:hover {
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-    -fx-text-fill: #e74c3c;
 }
 
 .nav-btn {
@@ -36,8 +24,8 @@
     -fx-font-size: 14px;
     -fx-padding: 8 15;
     -fx-cursor: hand;
-    -fx-transition: all 0.3s ease;
     -fx-background-radius: 5;
+    -fx-transition: all 0.3s ease;
 }
 
 .nav-btn:hover {
@@ -46,45 +34,38 @@
     -fx-scale-y: 1.05;
 }
 
-.theme-btn {
-    -fx-background-color: #34495e;
-    -fx-text-fill: #ecf0f1;
+.nav-btn-admin {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 20;
     -fx-background-radius: 20;
-    -fx-padding: 5 15;
     -fx-cursor: hand;
     -fx-transition: all 0.3s ease;
 }
 
-.theme-btn:hover {
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-    -fx-background-color: #e74c3c;
+.nav-btn-admin:hover {
+    -fx-background-color: #c0392b;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
 
-/* Page d'accueil */
+/* Carrousel */
 .carousel-container {
-    -fx-background-color: #1a2632;
-    -fx-transition: all 0.5s ease;
-}
-
-.carousel-bg {
     -fx-background-size: cover;
     -fx-background-position: center;
-    -fx-transition: all 0.5s ease;
 }
 
 .hero-content {
     -fx-background-color: rgba(0,0,0,0.6);
     -fx-padding: 60;
     -fx-alignment: center;
-    -fx-animation: fadeIn 1s ease-in;
 }
 
 .hero-title {
     -fx-font-size: 48px;
     -fx-font-weight: bold;
     -fx-fill: white;
-    -fx-transition: all 0.3s ease;
 }
 
 .hero-subtitle {
@@ -107,7 +88,6 @@
     -fx-background-color: #c0392b;
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5);
 }
 
 /* Statistiques */
@@ -128,7 +108,6 @@
     -fx-font-size: 32px;
     -fx-font-weight: bold;
     -fx-fill: #e74c3c;
-    -fx-transition: all 0.3s ease;
 }
 
 .stat-label {
@@ -136,165 +115,9 @@
     -fx-fill: #bdc3c7;
 }
 
-/* Catalogue */
-.page-title {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
-    -fx-padding: 20;
-    -fx-animation: slideIn 0.5s ease;
-}
-
-.search-bar {
-    -fx-padding: 0 20 20 20;
-}
-
-.search-bar TextField {
-    -fx-padding: 10 15;
-    -fx-background-radius: 25;
-    -fx-border-radius: 25;
-    -fx-border-color: #bdc3c7;
-    -fx-transition: all 0.3s ease;
-}
-
-.search-bar TextField:focused {
-    -fx-border-color: #e74c3c;
-    -fx-scale-x: 1.02;
-}
-
-.search-bar Button {
-    -fx-background-color: #e74c3c;
-    -fx-text-fill: white;
-    -fx-padding: 10 25;
-    -fx-background-radius: 25;
-    -fx-cursor: hand;
-    -fx-font-weight: bold;
-    -fx-transition: all 0.3s ease;
-}
-
-.search-bar Button:hover {
-    -fx-background-color: #c0392b;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}
-
-.books-grid {
-    -fx-padding: 20;
-}
-
-.book-card {
-    -fx-background-color: white;
-    -fx-background-radius: 15;
-    -fx-padding: 15;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
-    -fx-pref-width: 220;
-    -fx-alignment: center;
-    -fx-spacing: 10;
-    -fx-transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    -fx-cursor: hand;
-}
-
-.book-card:hover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 20, 0, 0, 10);
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-    -fx-translate-y: -5;
-}
-
-.book-cover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
-    -fx-background-radius: 8;
-    -fx-transition: all 0.3s ease;
-}
-
-.book-card:hover .book-cover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);
-}
-
-.book-title {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
-    -fx-wrap-text: true;
-    -fx-text-alignment: center;
-}
-
-.book-author {
-    -fx-font-size: 12px;
-    -fx-text-fill: #7f8c8d;
-}
-
-.book-status {
-    -fx-padding: 4 12;
-    -fx-background-radius: 20;
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-}
-
-.status-available {
-    -fx-background-color: #27ae60;
-    -fx-text-fill: white;
-}
-
-.status-borrowed {
-    -fx-background-color: #e74c3c;
-    -fx-text-fill: white;
-}
-
-.book-actions {
-    -fx-spacing: 8;
-    -fx-alignment: center;
-}
-
-.btn-wishlist {
-    -fx-background-color: #f39c12;
-    -fx-text-fill: white;
-    -fx-padding: 5 10;
-    -fx-background-radius: 20;
-    -fx-cursor: hand;
-    -fx-transition: all 0.3s ease;
-}
-
-.btn-wishlist:hover {
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-    -fx-background-color: #e67e22;
-}
-
-.btn-read {
-    -fx-background-color: #27ae60;
-    -fx-text-fill: white;
-    -fx-padding: 5 10;
-    -fx-background-radius: 20;
-    -fx-cursor: hand;
-    -fx-transition: all 0.3s ease;
-}
-
-.btn-read:hover {
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-    -fx-background-color: #229954;
-}
-
-.btn-borrow {
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
-    -fx-padding: 5 10;
-    -fx-background-radius: 20;
-    -fx-cursor: hand;
-    -fx-transition: all 0.3s ease;
-}
-
-.btn-borrow:hover {
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-    -fx-background-color: #2980b9;
-}
-
-/* Admin Login */
+/* Login */
 .login-container {
     -fx-alignment: center;
-    -fx-spacing: 20;
     -fx-padding: 50;
 }
 
@@ -311,7 +134,7 @@
 .login-title {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-fill: #2c3e50;
 }
 
 .login-field {
@@ -403,20 +226,4 @@
     -fx-background-radius: 10;
     -fx-padding: 20;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from { -fx-opacity: 0; }
-    to { -fx-opacity: 1; }
-}
-
-@keyframes slideIn {
-    from { -fx-translate-y: -20; -fx-opacity: 0; }
-    to { -fx-translate-y: 0; -fx-opacity: 1; }
-}
-
-@keyframes scaleIn {
-    from { -fx-scale-x: 0.8; -fx-scale-y: 0.8; -fx-opacity: 0; }
-    to { -fx-scale-x: 1; -fx-scale-y: 1; -fx-opacity: 1; }
 }
