@@ -16,6 +16,8 @@ public class EtudiantDAO {
         etudiants.add(new Etudiant(1, "Dupont", "Jean", "jean.dupont@email.com"));
         etudiants.add(new Etudiant(2, "Martin", "Sophie", "sophie.martin@email.com"));
         etudiants.add(new Etudiant(3, "Bernard", "Lucas", "lucas.bernard@email.com"));
+        etudiants.add(new Etudiant(999, "Emprunteur", "Anonyme", "emprunt@bibliotech.com"));  // Étudiant fictif
+        nextId = 1000;
     }
     
     public List<Etudiant> getAllEtudiants() {

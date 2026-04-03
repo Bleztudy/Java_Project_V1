@@ -6,14 +6,18 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 
-
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 
 public class AdminDashboardController {
     
@@ -71,6 +75,10 @@ public class AdminDashboardController {
     private TextField txtCategorie;
     @FXML
     private CheckBox chkDisponible;
+    @FXML
+    private Label imageStatus;
+    @FXML
+    private ImageView imagePreview;
     
     // Emprunts
     @FXML
@@ -97,17 +105,15 @@ public class AdminDashboardController {
     private EtudiantDAO etudiantDAO;
     private LivreDAO livreDAO;
     private EmpruntDAO empruntDAO;
+    private String currentImagePath = null;
     
     private static String currentAdmin;
     private static String lastLoginDate;
+    private static Livre livrePourEmprunt;
     
-    public static void setCurrentAdmin(String admin) {
-        currentAdmin = admin;
-    }
-    
-    public static void setLastLogin(String last) {
-        lastLoginDate = last;
-    }
+    public static void setCurrentAdmin(String admin) { currentAdmin = admin; }
+    public static void setLastLogin(String last) { lastLoginDate = last; }
+    public static void setLivrePourEmprunt(Livre livre) { livrePourEmprunt = livre; }
     
     @FXML
     public void initialize() {
@@ -143,6 +149,11 @@ public class AdminDashboardController {
         chargerEmprunts();
         chargerComboBox();
         
+        if (livrePourEmprunt != null && livrePourEmprunt.isDisponible()) {
+            comboLivre.getSelectionModel().select(livrePourEmprunt);
+            livrePourEmprunt = null;
+        }
+        
         // Listeners
         tableEtudiants.getSelectionModel().selectedItemProperty().addListener(
             (obs, old, newVal) -> selectionnerEtudiant(newVal));
@@ -171,6 +182,37 @@ public class AdminDashboardController {
         });
     }
     
+    @FXML
+    private void uploadImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image pour le livre");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg")
+        );
+        
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try {
+                String userDir = System.getProperty("user.dir");
+                File destDir = new File(userDir + "/src/main/resources/images/books/");
+                if (!destDir.exists()) destDir.mkdirs();
+                
+                Livre selected = tableLivres.getSelectionModel().getSelectedItem();
+                String fileName = (selected != null) ? selected.getId() + ".jpg" : "temp_" + System.currentTimeMillis() + ".jpg";
+                File destFile = new File(destDir, fileName);
+                Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                
+                currentImagePath = destFile.getPath();
+                Image image = new Image(destFile.toURI().toString(), 100, 120, true, true);
+                imagePreview.setImage(image);
+                imageStatus.setText("Image: " + fileName);
+                showAlert("Succès", "Image chargée !", Alert.AlertType.INFORMATION);
+            } catch (IOException e) {
+                showAlert("Erreur", "Erreur: " + e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+    
     private void ajouterBoutonRetourEmprunt() {
         colActionEmprunt.setCellFactory(param -> new TableCell<>() {
             private final Button retourBtn = new Button("Retourner");
@@ -184,13 +226,11 @@ public class AdminDashboardController {
                     chargerComboBox();
                 });
             }
-            
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
+                if (empty) setGraphic(null);
+                else {
                     Emprunt emprunt = getTableView().getItems().get(getIndex());
                     retourBtn.setDisable(emprunt.getDateRetour() != null);
                     setGraphic(retourBtn);
@@ -214,19 +254,17 @@ public class AdminDashboardController {
         Livre livre = comboLivre.getSelectionModel().getSelectedItem();
         
         if (etudiant == null || livre == null) {
-            showAlert("Erreur", "Veuillez sélectionner un étudiant et un livre", Alert.AlertType.ERROR);
+            showAlert("Erreur", "Sélectionnez un étudiant et un livre", Alert.AlertType.ERROR);
             return;
         }
         
-        boolean succes = empruntDAO.emprunterLivre(etudiant.getId(), livre.getId(), LocalDate.now());
-        
-        if (succes) {
+        if (empruntDAO.emprunterLivre(etudiant.getId(), livre.getId(), LocalDate.now())) {
             chargerLivres();
             chargerEmprunts();
             chargerComboBox();
             showAlert("Succès", "Emprunt enregistré !", Alert.AlertType.INFORMATION);
         } else {
-            showAlert("Erreur", "Le livre n'est pas disponible", Alert.AlertType.ERROR);
+            showAlert("Erreur", "Livre non disponible", Alert.AlertType.ERROR);
         }
     }
     
@@ -239,29 +277,21 @@ public class AdminDashboardController {
     @FXML
     private void changeTheme() {
         String theme = themeCombo.getValue();
-        if ("Sombre".equals(theme)) {
-            rootPane.setStyle("-fx-background-color: #1a2632; -fx-padding: 20; -fx-spacing: 20;");
-        } else if ("Océan".equals(theme)) {
-            rootPane.setStyle("-fx-background-color: linear-gradient(to bottom, #0f2027, #203a43); -fx-padding: 20; -fx-spacing: 20;");
-        } else {
-            rootPane.setStyle("-fx-background-color: #f0f4f8; -fx-padding: 20; -fx-spacing: 20;");
-        }
+        if ("Sombre".equals(theme)) rootPane.setStyle("-fx-background-color: #1a2632; -fx-padding: 20; -fx-spacing: 20;");
+        else if ("Océan".equals(theme)) rootPane.setStyle("-fx-background-color: linear-gradient(to bottom, #0f2027, #203a43); -fx-padding: 20; -fx-spacing: 20;");
+        else rootPane.setStyle("-fx-background-color: #f0f4f8; -fx-padding: 20; -fx-spacing: 20;");
     }
     
     @FXML
-    private void handleLogout() throws IOException {
+    private void handleLogout() {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Déconnexion");
         confirm.setHeaderText("Êtes-vous sûr de vouloir vous déconnecter ?");
         confirm.setContentText("L'application va se fermer.");
-        
-        if (confirm.showAndWait().get() == ButtonType.OK) {
-            System.exit(0);
-        }
+        if (confirm.showAndWait().get() == ButtonType.OK) System.exit(0);
     }
     
-    // ==================== GESTION ÉTUDIANTS ====================
-    
+    // GESTION ÉTUDIANTS
     private void chargerEtudiants() {
         tableEtudiants.setItems(FXCollections.observableArrayList(etudiantDAO.getAllEtudiants()));
     }
@@ -277,8 +307,7 @@ public class AdminDashboardController {
     @FXML
     private void ajouterEtudiant() {
         if (!txtNom.getText().isEmpty() && !txtPrenom.getText().isEmpty() && !txtEmail.getText().isEmpty()) {
-            Etudiant e = new Etudiant(txtNom.getText(), txtPrenom.getText(), txtEmail.getText());
-            etudiantDAO.ajouterEtudiant(e);
+            etudiantDAO.ajouterEtudiant(new Etudiant(txtNom.getText(), txtPrenom.getText(), txtEmail.getText()));
             chargerEtudiants();
             chargerComboBox();
             clearEtudiantFields();
@@ -316,8 +345,7 @@ public class AdminDashboardController {
         txtEmail.clear();
     }
     
-    // ==================== GESTION LIVRES ====================
-    
+    // GESTION LIVRES
     private void chargerLivres() {
         tableLivres.setItems(FXCollections.observableArrayList(livreDAO.getAllLivres()));
     }
@@ -328,6 +356,22 @@ public class AdminDashboardController {
             txtAuteur.setText(l.getAuteur());
             txtCategorie.setText(l.getCategorie());
             chkDisponible.setSelected(l.isDisponible());
+            
+            // Charger l'image existante
+            try {
+                String imagePath = "/images/books/" + l.getId() + ".jpg";
+                var is = getClass().getResourceAsStream(imagePath);
+                if (is != null) {
+                    imagePreview.setImage(new Image(is, 100, 120, true, true));
+                    imageStatus.setText("Image existante");
+                } else {
+                    imagePreview.setImage(null);
+                    imageStatus.setText("Aucune image");
+                }
+            } catch (Exception e) {
+                imagePreview.setImage(null);
+                imageStatus.setText("Aucune image");
+            }
         }
     }
     
@@ -339,6 +383,7 @@ public class AdminDashboardController {
             chargerLivres();
             chargerComboBox();
             clearLivreFields();
+            showAlert("Succès", "Livre ajouté !", Alert.AlertType.INFORMATION);
         }
     }
     
@@ -354,6 +399,7 @@ public class AdminDashboardController {
             chargerLivres();
             chargerComboBox();
             clearLivreFields();
+            showAlert("Succès", "Livre modifié !", Alert.AlertType.INFORMATION);
         }
     }
     
@@ -365,6 +411,7 @@ public class AdminDashboardController {
             chargerLivres();
             chargerComboBox();
             clearLivreFields();
+            showAlert("Succès", "Livre supprimé !", Alert.AlertType.INFORMATION);
         }
     }
     
@@ -373,6 +420,9 @@ public class AdminDashboardController {
         txtAuteur.clear();
         txtCategorie.clear();
         chkDisponible.setSelected(true);
+        imagePreview.setImage(null);
+        imageStatus.setText("Aucune image");
+        currentImagePath = null;
     }
     
     private void showAlert(String titre, String message, Alert.AlertType type) {
