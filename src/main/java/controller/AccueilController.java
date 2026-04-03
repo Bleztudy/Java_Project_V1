@@ -37,11 +37,13 @@ public class AccueilController {
     private int currentIndex = 0;
     private Timeline carouselTimeline;
     
-    private final List<String> carouselColors = Arrays.asList(
-        "#667eea",
-        "#f093fb",
-        "#4facfe",
-        "#43e97b"
+    private final List<String> carouselImages = Arrays.asList(
+        "/images/carousel/slide-1.jpg",
+        "/images/carousel/slide-2.jpg",
+        "/images/carousel/slide-3.jpg",
+        "/images/carousel/slide-4.jpg",
+        "/images/carousel/slide-5.jpg",
+        "/images/carousel/slide-6.jpg"
     );
     
     @FXML
@@ -67,22 +69,28 @@ public class AccueilController {
     }
     
     private void demarrerCarrousel() {
-        appliquerCarrouselItem(0);
+        appliquerImageCarrousel(0);
         
         carouselTimeline = new Timeline(
-            new KeyFrame(Duration.seconds(4), event -> {
-                currentIndex = (currentIndex + 1) % carouselColors.size();
-                appliquerCarrouselItem(currentIndex);
+            new KeyFrame(Duration.seconds(5), event -> {
+                currentIndex = (currentIndex + 1) % carouselImages.size();
+                appliquerImageCarrousel(currentIndex);
             })
         );
         carouselTimeline.setCycleCount(Timeline.INDEFINITE);
         carouselTimeline.play();
     }
     
-    private void appliquerCarrouselItem(int index) {
-        carouselPane.setStyle("-fx-background-color: " + carouselColors.get(index) + ";");
+    private void appliquerImageCarrousel(int index) {
+        try {
+            String imagePath = getClass().getResource(carouselImages.get(index)).toExternalForm();
+            carouselPane.setStyle("-fx-background-image: url('" + imagePath + "'); -fx-background-size: cover; -fx-background-position: center;");
+        } catch (Exception e) {
+            // Fallback à une couleur si l'image n'existe pas
+            carouselPane.setStyle("-fx-background-color: #667eea;");
+        }
         
-        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), carouselPane);
+        FadeTransition fade = new FadeTransition(Duration.seconds(1), carouselPane);
         fade.setFromValue(0.7);
         fade.setToValue(1);
         fade.play();

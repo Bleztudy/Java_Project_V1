@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controller.LecteurController" spacing="10" style="-fx-background-color: #f5f5dc;">
+
+    <HBox style="-fx-background-color: #2c3e50; -fx-padding: 10 20; -fx-spacing: 10;">
+        <Button text="← Retour" onAction="#fermerLecteur" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20; -fx-cursor: hand;"/>
+        <Region HBox.hgrow="ALWAYS" />
+        <Label fx:id="titreLivre" text="Titre du livre" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS" />
+        <Label text="Page:" style="-fx-text-fill: white;"/>
+        <TextField fx:id="pageField" text="1" prefWidth="60" style="-fx-background-radius: 5; -fx-padding: 5;"/>
+        <Label text="/" style="-fx-text-fill: white;"/>
+        <Label fx:id="totalPages" text="0" style="-fx-text-fill: white;"/>
+        <Button text="Go" onAction="#goToPage" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 5 15; -fx-background-radius: 20; -fx-cursor: hand;"/>
+    </HBox>
+    
+    <ScrollPane VBox.vgrow="ALWAYS" style="-fx-background: #f5f5dc; -fx-background-color: #f5f5dc;">
+        <VBox alignment="TOP_CENTER" style="-fx-padding: 40; -fx-background-color: #f5f5dc;">
+            <Text fx:id="contenuLivre" text="Contenu du livre..." style="-fx-font-size: 18px; -fx-fill: #2c3e50; -fx-font-family: 'Georgia'; -fx-wrap-text: true;"/>
+        </VBox>
+    </ScrollPane>
+    
+    <HBox spacing="20" alignment="CENTER" style="-fx-padding: 10; -fx-background-color: #2c3e50;">
+        <Button text="◀ Page précédente" onAction="#pagePrecedente" style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20; -fx-cursor: hand;"/>
+        <Button text="Page suivante ▶" onAction="#pageSuivante" style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20; -fx-cursor: hand;"/>
+    </HBox>
+    
+</VBox>

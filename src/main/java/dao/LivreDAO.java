@@ -16,6 +16,14 @@ public class LivreDAO {
         livres.add(new Livre(2, "Spring Boot Masterclass", "Jane Smith", "Informatique", true));
         livres.add(new Livre(3, "Les Misérables", "Victor Hugo", "Littérature", true));
         livres.add(new Livre(4, "Clean Code", "Robert Martin", "Informatique", true));
+        livres.add(new Livre(5, "Le Petit Prince", "Antoine de Saint-Exupéry", "Littérature", true));
+        livres.add(new Livre(6, "Histoire de la France", "Jules Michelet", "Histoire", true));
+        livres.add(new Livre(7, "Mathématiques L3", "Jean-Pierre Demailly", "Mathématiques", true));
+        livres.add(new Livre(8, "Physique Quantique", "Albert Einstein", "Physique", true));
+        livres.add(new Livre(9, "1984", "George Orwell", "Littérature", true));
+        livres.add(new Livre(10, "Le Guide du Java", "Joshua Bloch", "Informatique", true));
+        livres.add(new Livre(11, "La Peste", "Albert Camus", "Littérature", true));
+        livres.add(new Livre(12, "Algèbre Linéaire", "Serge Lang", "Mathématiques", true));
     }
     
     public List<Livre> getAllLivres() {
