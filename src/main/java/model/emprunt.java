@@ -1,78 +1,44 @@
 package model;
+
+import java.time.LocalDate;
+
+public class Emprunt {
     private int id;
-    private String titre;
-    private String auteur;
-    private String categorie;
-    private boolean disponible;
-
-
-    public Livre() {}
-
-    public Livre(String titre, String auteur, String categorie, boolean disponible) {
-        this.titre      = titre;
-        this.auteur     = auteur;
-        this.categorie  = categorie;
-        this.disponible = disponible;
-    }
-
-    public Livre(int id, String titre, String auteur, String categorie, boolean disponible) {
-        this.id         = id;
-        this.titre      = titre;
-        this.auteur     = auteur;
-        this.categorie  = categorie;
-        this.disponible = disponible;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    private int idEtudiant;
+    private int idLivre;
+    private String nomEtudiant;
+    private String titreLivre;
+    private LocalDate dateEmprunt;
+    private LocalDate dateRetour;
+    
+    public Emprunt() {}
+    
+    public Emprunt(int id, int idEtudiant, int idLivre, LocalDate dateEmprunt, LocalDate dateRetour) {
         this.id = id;
+        this.idEtudiant = idEtudiant;
+        this.idLivre = idLivre;
+        this.dateEmprunt = dateEmprunt;
+        this.dateRetour = dateRetour;
     }
-
-    public String getTitre() {
-        return titre;
-    }
-
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
-
-    public String getAuteur() {
-        return auteur;
-    }
-
-    public void setAuteur(String auteur) {
-        this.auteur = auteur;
-    }
-
-    public String getCategorie() {
-        return categorie;
-    }
-
-    public void setCategorie(String categorie) {
-        this.categorie = categorie;
-    }
-
-    public boolean isDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
-    }
-
- 
-    @Override
-    public String toString() {
-        return "Livre{" +
-                "id=" + id +
-                ", titre='" + titre + '\'' +
-                ", auteur='" + auteur + '\'' +
-                ", categorie='" + categorie + '\'' +
-                ", disponible=" + disponible +
-                '}';
-    }
+    
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    
+    public int getIdEtudiant() { return idEtudiant; }
+    public void setIdEtudiant(int idEtudiant) { this.idEtudiant = idEtudiant; }
+    
+    public int getIdLivre() { return idLivre; }
+    public void setIdLivre(int idLivre) { this.idLivre = idLivre; }
+    
+    public String getNomEtudiant() { return nomEtudiant; }
+    public void setNomEtudiant(String nomEtudiant) { this.nomEtudiant = nomEtudiant; }
+    
+    public String getTitreLivre() { return titreLivre; }
+    public void setTitreLivre(String titreLivre) { this.titreLivre = titreLivre; }
+    
+    public LocalDate getDateEmprunt() { return dateEmprunt; }
+    public void setDateEmprunt(LocalDate dateEmprunt) { this.dateEmprunt = dateEmprunt; }
+    
+    public LocalDate getDateRetour() { return dateRetour; }
+    public void setDateRetour(LocalDate dateRetour) { this.dateRetour = dateRetour; }
 }
