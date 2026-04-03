@@ -1,28 +1,51 @@
 package dao;
 
+import database.DatabaseConnection;
+
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AdminDAO {
-    private static Map<String, String> admins = new HashMap<>();
-    private static Map<String, String> lastLogins = new HashMap<>();
-    
-    static {
-        admins.put("admin", "admin123");
-        admins.put("bibliothecaire", "biblio2024");
-    }
     
     public boolean authenticate(String username, String password) {
-        return admins.containsKey(username) && admins.get(username).equals(password);
+        String sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     
     public void updateLastLogin(String username) {
-        lastLogins.put(username, LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        String sql = "UPDATE admin SET last_login = ? WHERE username = ?";
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
     public String getLastLogin(String username) {
-        return lastLogins.getOrDefault(username, null);
+        String sql = "SELECT last_login FROM admin WHERE username = ?";
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("last_login");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

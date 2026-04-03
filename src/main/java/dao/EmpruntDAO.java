@@ -2,47 +2,79 @@ package dao;
 
 import model.Emprunt;
 import model.Livre;
-// import model.Etudiant;
+import database.DatabaseConnection;
 
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EmpruntDAO {
     
-    private static List<Emprunt> emprunts = new ArrayList<>();
-    private static int nextId = 2;
-    private LivreDAO livreDAO = new LivreDAO();
-    private EtudiantDAO etudiantDAO = new EtudiantDAO();
-    
-    static {
-        Emprunt emp = new Emprunt();
-        emp.setId(1);
-        emp.setIdEtudiant(1);
-        emp.setIdLivre(1);
-        emp.setNomEtudiant("Jean Dupont");
-        emp.setTitreLivre("Java pour les nuls");
-        emp.setDateEmprunt(LocalDate.now().minusDays(5));
-        emprunts.add(emp);
-        
-        // Marquer le livre comme emprunté
-        new LivreDAO().updateDisponibilite(1, false);
-    }
-    
     public List<Emprunt> getAllEmprunts() {
-        return new ArrayList<>(emprunts);
+        List<Emprunt> emprunts = new ArrayList<>();
+        String sql = "SELECT e.*, et.nom as nom_etudiant, et.prenom, l.titre as titre_livre " +
+                     "FROM emprunt e " +
+                     "JOIN etudiant et ON e.id_etudiant = et.id " +
+                     "JOIN livre l ON e.id_livre = l.id " +
+                     "ORDER BY e.date_emprunt DESC";
+        
+        try (Statement stmt = DatabaseConnection.getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                Emprunt emp = new Emprunt();
+                emp.setId(rs.getInt("id"));
+                emp.setIdEtudiant(rs.getInt("id_etudiant"));
+                emp.setIdLivre(rs.getInt("id_livre"));
+                emp.setNomEtudiant(rs.getString("prenom") + " " + rs.getString("nom_etudiant"));
+                emp.setTitreLivre(rs.getString("titre_livre"));
+                emp.setDateEmprunt(rs.getDate("date_emprunt").toLocalDate());
+                Date dateRetour = rs.getDate("date_retour");
+                if (dateRetour != null) {
+                    emp.setDateRetour(dateRetour.toLocalDate());
+                }
+                emprunts.add(emp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return emprunts;
     }
     
     public List<Emprunt> getEmpruntsEnCours() {
-        return emprunts.stream()
-            .filter(e -> e.getDateRetour() == null)
-            .collect(Collectors.toList());
+        List<Emprunt> emprunts = new ArrayList<>();
+        String sql = "SELECT e.*, et.nom as nom_etudiant, et.prenom, l.titre as titre_livre " +
+                     "FROM emprunt e " +
+                     "JOIN etudiant et ON e.id_etudiant = et.id " +
+                     "JOIN livre l ON e.id_livre = l.id " +
+                     "WHERE e.date_retour IS NULL " +
+                     "ORDER BY e.date_emprunt DESC";
+        
+        try (Statement stmt = DatabaseConnection.getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                Emprunt emp = new Emprunt();
+                emp.setId(rs.getInt("id"));
+                emp.setIdEtudiant(rs.getInt("id_etudiant"));
+                emp.setIdLivre(rs.getInt("id_livre"));
+                emp.setNomEtudiant(rs.getString("prenom") + " " + rs.getString("nom_etudiant"));
+                emp.setTitreLivre(rs.getString("titre_livre"));
+                emp.setDateEmprunt(rs.getDate("date_emprunt").toLocalDate());
+                emprunts.add(emp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return emprunts;
     }
     
     public boolean emprunterLivre(int idEtudiant, int idLivre, LocalDate dateEmprunt) {
-        List<Livre> livres = livreDAO.getAllLivres();
+        LivreDAO livreDAO = new LivreDAO();
         
+        // Vérifier si le livre est disponible
+        List<Livre> livres = livreDAO.getAllLivres();
         boolean livreDisponible = livres.stream()
             .filter(l -> l.getId() == idLivre)
             .findFirst()
@@ -53,45 +85,74 @@ public class EmpruntDAO {
             return false;
         }
         
-        // Récupérer les infos de l'étudiant et du livre
-        String nomEtudiant = etudiantDAO.getAllEtudiants().stream()
-            .filter(e -> e.getId() == idEtudiant)
-            .findFirst()
-            .map(e -> e.getPrenom() + " " + e.getNom())
-            .orElse("Inconnu");
+        // Créer l'emprunt
+        String sql = "INSERT INTO emprunt (id_etudiant, id_livre, date_emprunt) VALUES (?, ?, ?)";
         
-        String titreLivre = livres.stream()
-            .filter(l -> l.getId() == idLivre)
-            .findFirst()
-            .map(Livre::getTitre)
-            .orElse("Inconnu");
-        
-        Emprunt emp = new Emprunt();
-        emp.setId(nextId++);
-        emp.setIdEtudiant(idEtudiant);
-        emp.setIdLivre(idLivre);
-        emp.setNomEtudiant(nomEtudiant);
-        emp.setTitreLivre(titreLivre);
-        emp.setDateEmprunt(dateEmprunt);
-        emprunts.add(emp);
-        
-        livreDAO.updateDisponibilite(idLivre, false);
-        return true;
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setInt(1, idEtudiant);
+            pstmt.setInt(2, idLivre);
+            pstmt.setDate(3, Date.valueOf(dateEmprunt));
+            pstmt.executeUpdate();
+            
+            // Marquer le livre comme indisponible
+            livreDAO.updateDisponibilite(idLivre, false);
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
     
     public boolean retournerLivre(int idEmprunt) {
-        for (Emprunt emp : emprunts) {
-            if (emp.getId() == idEmprunt) {
-                emp.setDateRetour(LocalDate.now());
-                livreDAO.updateDisponibilite(emp.getIdLivre(), true);
-                return true;
+        // Récupérer l'ID du livre associé à l'emprunt
+        String selectSql = "SELECT id_livre FROM emprunt WHERE id = ?";
+        int idLivre = -1;
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(selectSql)) {
+            pstmt.setInt(1, idEmprunt);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                idLivre = rs.getInt("id_livre");
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
         }
-        return false;
+        
+        if (idLivre == -1) {
+            return false;
+        }
+        
+        // Mettre à jour la date de retour
+        String updateSql = "UPDATE emprunt SET date_retour = ? WHERE id = ?";
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(updateSql)) {
+            pstmt.setDate(1, Date.valueOf(LocalDate.now()));
+            pstmt.setInt(2, idEmprunt);
+            pstmt.executeUpdate();
+            
+            // Marquer le livre comme disponible
+            LivreDAO livreDAO = new LivreDAO();
+            livreDAO.updateDisponibilite(idLivre, true);
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
     
     public boolean isLivreEmprunte(int idLivre) {
-        return emprunts.stream()
-            .anyMatch(e -> e.getIdLivre() == idLivre && e.getDateRetour() == null);
+        String sql = "SELECT COUNT(*) FROM emprunt WHERE id_livre = ? AND date_retour IS NULL";
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setInt(1, idLivre);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }
