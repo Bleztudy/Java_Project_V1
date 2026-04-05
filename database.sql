@@ -1,7 +1,3 @@
--- Création de la base de données
-CREATE DATABASE IF NOT EXISTS bibliotech;
-USE bibliotech;
-
 -- Table etudiant
 CREATE TABLE IF NOT EXISTS etudiant (
     id INT PRIMARY KEY AUTO_INCREMENT,

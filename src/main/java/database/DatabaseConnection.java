@@ -5,19 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/bibliotech";
-    private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String URL = "jdbc:mysql://sql5.freesqldatabase.com:3306/sql5822300";
+    private static final String USER = "sql5822300";
+    private static final String PASSWORD = "thwNnv35sI";
     
     private static Connection connection = null;
-    private static boolean useRealDB = false; // CHANGER A TRUE QUAND MYSQL SERA PRET
     
     public static Connection getConnection() {
-        if (!useRealDB) {
-            System.out.println("Mode démo - Base de données non utilisée");
-            return null;
-        }
-        
         if (connection == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
