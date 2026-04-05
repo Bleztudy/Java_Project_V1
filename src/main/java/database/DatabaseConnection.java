@@ -7,11 +7,17 @@ import java.sql.SQLException;
 public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/bibliotech";
     private static final String USER = "root";
-    private static final String PASSWORD = "";  // Par défaut sous Wamp, pas de mot de passe
+    private static final String PASSWORD = "";
     
     private static Connection connection = null;
+    private static boolean useRealDB = false; // CHANGER A TRUE QUAND MYSQL SERA PRET
     
     public static Connection getConnection() {
+        if (!useRealDB) {
+            System.out.println("Mode démo - Base de données non utilisée");
+            return null;
+        }
+        
         if (connection == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");

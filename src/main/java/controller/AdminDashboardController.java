@@ -105,6 +105,7 @@ public class AdminDashboardController {
     private EtudiantDAO etudiantDAO;
     private LivreDAO livreDAO;
     private EmpruntDAO empruntDAO;
+    @SuppressWarnings("unused")
     private String currentImagePath = null;
     
     private static String currentAdmin;

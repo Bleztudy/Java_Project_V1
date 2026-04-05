@@ -1,0 +1,229 @@
+/* styles.css - Version complète avec tous les effets */
+
+* {
+    -fx-font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+/* Navigation */
+.navbar {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 15 20;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.logo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ecf0f1;
+}
+
+.nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 14px;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+    -fx-transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    -fx-background-color: #34495e;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.nav-btn-admin {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 20;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
+
+.nav-btn-admin:hover {
+    -fx-background-color: #c0392b;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Carrousel */
+.carousel-container {
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.hero-content {
+    -fx-background-color: rgba(0,0,0,0.6);
+    -fx-padding: 60;
+    -fx-alignment: center;
+}
+
+.hero-title {
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-fill: white;
+}
+
+.hero-subtitle {
+    -fx-font-size: 18px;
+    -fx-fill: #ecf0f1;
+}
+
+.hero-btn {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 30;
+    -fx-background-radius: 30;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
+
+.hero-btn:hover {
+    -fx-background-color: #c0392b;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Statistiques */
+.stats-container {
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-padding: 20 40;
+    -fx-background-radius: 15;
+    -fx-transition: all 0.3s ease;
+}
+
+.stats-container:hover {
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.stat-number {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-fill: #e74c3c;
+}
+
+.stat-label {
+    -fx-font-size: 14px;
+    -fx-fill: #bdc3c7;
+}
+
+/* Login */
+.login-container {
+    -fx-alignment: center;
+    -fx-padding: 50;
+}
+
+.login-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 40;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 20, 0, 0, 10);
+    -fx-pref-width: 400;
+    -fx-alignment: center;
+    -fx-spacing: 20;
+}
+
+.login-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-fill: #2c3e50;
+}
+
+.login-field {
+    -fx-padding: 12 15;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #bdc3c7;
+    -fx-pref-width: 300;
+}
+
+.login-btn {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-padding: 12 30;
+    -fx-background-radius: 25;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    -fx-background-color: #c0392b;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Admin Dashboard */
+.admin-dashboard {
+    -fx-padding: 20;
+    -fx-spacing: 20;
+}
+
+.admin-sidebar {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 20;
+    -fx-spacing: 20;
+    -fx-pref-width: 280;
+    -fx-background-radius: 10;
+}
+
+.admin-info {
+    -fx-background-color: #34495e;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-spacing: 10;
+}
+
+.info-label {
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 12px;
+}
+
+.info-value {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.theme-selector {
+    -fx-background-color: #34495e;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-spacing: 10;
+}
+
+.theme-combo {
+    -fx-background-color: #ecf0f1;
+    -fx-background-radius: 5;
+}
+
+.logout-btn {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-padding: 10;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    -fx-background-color: #c0392b;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.admin-content {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}

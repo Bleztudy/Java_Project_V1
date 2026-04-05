@@ -1,138 +1,73 @@
 package dao;
 
 import model.Livre;
-import database.DatabaseConnection;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LivreDAO {
     
+    private static List<Livre> livres = new ArrayList<>();
+    private static int nextId = 5;
+    
+    static {
+        livres.add(new Livre(1, "Java pour les nuls", "John Doe", "Informatique", true));
+        livres.add(new Livre(2, "Spring Boot Masterclass", "Jane Smith", "Informatique", true));
+        livres.add(new Livre(3, "Les Misérables", "Victor Hugo", "Littérature", true));
+        livres.add(new Livre(4, "Clean Code", "Robert Martin", "Informatique", true));
+        livres.add(new Livre(5, "Le Petit Prince", "Antoine de Saint-Exupéry", "Littérature", true));
+        livres.add(new Livre(6, "Histoire de la France", "Jules Michelet", "Histoire", true));
+        livres.add(new Livre(7, "Mathématiques L3", "Jean-Pierre Demailly", "Mathématiques", true));
+        livres.add(new Livre(8, "Physique Quantique", "Albert Einstein", "Physique", true));
+        livres.add(new Livre(9, "1984", "George Orwell", "Littérature", true));
+        livres.add(new Livre(10, "Le Guide du Java", "Joshua Bloch", "Informatique", true));
+        livres.add(new Livre(11, "La Peste", "Albert Camus", "Littérature", true));
+        livres.add(new Livre(12, "Algèbre Linéaire", "Serge Lang", "Mathématiques", true));
+    }
+    
     public List<Livre> getAllLivres() {
-        List<Livre> livres = new ArrayList<>();
-        String sql = "SELECT * FROM livre ORDER BY id";
-        
-        try (Statement stmt = DatabaseConnection.getConnection().createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            
-            while (rs.next()) {
-                Livre l = new Livre();
-                l.setId(rs.getInt("id"));
-                l.setTitre(rs.getString("titre"));
-                l.setAuteur(rs.getString("auteur"));
-                l.setCategorie(rs.getString("categorie"));
-                l.setDisponible(rs.getBoolean("disponible"));
-                livres.add(l);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return livres;
+        return new ArrayList<>(livres);
     }
     
     public List<Livre> getLivresDisponibles() {
-        List<Livre> livres = new ArrayList<>();
-        String sql = "SELECT * FROM livre WHERE disponible = TRUE ORDER BY titre";
-        
-        try (Statement stmt = DatabaseConnection.getConnection().createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            
-            while (rs.next()) {
-                Livre l = new Livre();
-                l.setId(rs.getInt("id"));
-                l.setTitre(rs.getString("titre"));
-                l.setAuteur(rs.getString("auteur"));
-                l.setCategorie(rs.getString("categorie"));
-                l.setDisponible(true);
-                livres.add(l);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return livres;
+        return livres.stream()
+            .filter(Livre::isDisponible)
+            .collect(Collectors.toList());
     }
     
     public void ajouterLivre(Livre l) {
-        String sql = "INSERT INTO livre (titre, auteur, categorie, disponible) VALUES (?, ?, ?, ?)";
-        
-        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, l.getTitre());
-            pstmt.setString(2, l.getAuteur());
-            pstmt.setString(3, l.getCategorie());
-            pstmt.setBoolean(4, l.isDisponible());
-            pstmt.executeUpdate();
-            
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                l.setId(rs.getInt(1));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        l.setId(nextId++);
+        livres.add(l);
     }
     
     public void modifierLivre(Livre l) {
-        String sql = "UPDATE livre SET titre = ?, auteur = ?, categorie = ?, disponible = ? WHERE id = ?";
-        
-        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
-            pstmt.setString(1, l.getTitre());
-            pstmt.setString(2, l.getAuteur());
-            pstmt.setString(3, l.getCategorie());
-            pstmt.setBoolean(4, l.isDisponible());
-            pstmt.setInt(5, l.getId());
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        for (int i = 0; i < livres.size(); i++) {
+            if (livres.get(i).getId() == l.getId()) {
+                livres.set(i, l);
+                break;
+            }
         }
     }
     
     public void supprimerLivre(int id) {
-        String sql = "DELETE FROM livre WHERE id = ?";
-        
-        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        livres.removeIf(l -> l.getId() == id);
     }
     
     public List<Livre> rechercherLivres(String motCle) {
-        List<Livre> livres = new ArrayList<>();
-        String sql = "SELECT * FROM livre WHERE titre LIKE ? OR auteur LIKE ? OR categorie LIKE ?";
-        
-        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
-            String recherche = "%" + motCle + "%";
-            pstmt.setString(1, recherche);
-            pstmt.setString(2, recherche);
-            pstmt.setString(3, recherche);
-            ResultSet rs = pstmt.executeQuery();
-            
-            while (rs.next()) {
-                Livre l = new Livre();
-                l.setId(rs.getInt("id"));
-                l.setTitre(rs.getString("titre"));
-                l.setAuteur(rs.getString("auteur"));
-                l.setCategorie(rs.getString("categorie"));
-                l.setDisponible(rs.getBoolean("disponible"));
-                livres.add(l);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return livres;
+        return livres.stream()
+            .filter(l -> l.getTitre().toLowerCase().contains(motCle.toLowerCase()) ||
+                         l.getAuteur().toLowerCase().contains(motCle.toLowerCase()) ||
+                         (l.getCategorie() != null && l.getCategorie().toLowerCase().contains(motCle.toLowerCase())))
+            .collect(Collectors.toList());
     }
     
     public void updateDisponibilite(int idLivre, boolean disponible) {
-        String sql = "UPDATE livre SET disponible = ? WHERE id = ?";
-        
-        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
-            pstmt.setBoolean(1, disponible);
-            pstmt.setInt(2, idLivre);
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        for (Livre l : livres) {
+            if (l.getId() == idLivre) {
+                l.setDisponible(disponible);
+                break;
+            }
         }
     }
 }

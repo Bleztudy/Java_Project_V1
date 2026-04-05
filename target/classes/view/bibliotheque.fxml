@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="TOP_CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.BibliothequeController" fx:id="rootPane">
+    
+    <HBox alignment="CENTER">
+        <Label text="📚 Gestion de Bibliothèque" />
+        <Region HBox.hgrow="ALWAYS" />
+        <ToggleButton fx:id="themeToggle" onAction="#toggleTheme" text="Mode sombre" />
+    </HBox>
+    
+    <Separator />
+    
+    <TabPane>
+        
+        <Tab text="Étudiants">
+            <VBox spacing="10">
+                <TableView fx:id="tableEtudiants" prefHeight="300">
+                    <columns>
+                        <TableColumn fx:id="colIdEtudiant" text="ID" />
+                        <TableColumn fx:id="colNom" text="Nom" />
+                        <TableColumn fx:id="colPrenom" text="Prénom" />
+                        <TableColumn fx:id="colEmail" text="Email" />
+                    </columns>
+                </TableView>
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <TextField fx:id="txtNom" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Label text="Prénom:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <TextField fx:id="txtPrenom" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <TextField fx:id="txtEmail" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                </GridPane>
+                <HBox spacing="10">
+                    <Button text="Ajouter" onAction="#ajouterEtudiant" />
+                    <Button text="Modifier" onAction="#modifierEtudiant" />
+                    <Button text="Supprimer" onAction="#supprimerEtudiant" />
+                    <Button text="Rechercher" onAction="#rechercherEtudiant" />
+                </HBox>
+            </VBox>
+        </Tab>
+        
+        <Tab text="Livres">
+            <VBox spacing="10">
+                <TableView fx:id="tableLivres" prefHeight="300">
+                    <columns>
+                        <TableColumn fx:id="colIdLivre" text="ID" />
+                        <TableColumn fx:id="colTitre" text="Titre" />
+                        <TableColumn fx:id="colAuteur" text="Auteur" />
+                        <TableColumn fx:id="colCategorie" text="Catégorie" />
+                        <TableColumn fx:id="colDisponible" text="Disponible" />
+                    </columns>
+                </TableView>
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <TextField fx:id="txtTitre" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    <Label text="Auteur:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <TextField fx:id="txtAuteur" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    <Label text="Catégorie:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <TextField fx:id="txtCategorie" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                    <Label text="Disponible:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                    <CheckBox fx:id="chkDisponible" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                </GridPane>
+                <HBox spacing="10">
+                    <Button text="Ajouter" onAction="#ajouterLivre" />
+                    <Button text="Modifier" onAction="#modifierLivre" />
+                    <Button text="Supprimer" onAction="#supprimerLivre" />
+                    <Button text="Rechercher" onAction="#rechercherLivre" />
+                </HBox>
+            </VBox>
+        </Tab>
+        
+        <Tab text="Emprunts">
+            <VBox spacing="10">
+                <TableView fx:id="tableEmprunts" prefHeight="250">
+                    <columns>
+                        <TableColumn fx:id="colIdEmprunt" text="ID" />
+                        <TableColumn fx:id="colEtudiant" text="Étudiant" />
+                        <TableColumn fx:id="colLivre" text="Livre" />
+                        <TableColumn fx:id="colDateEmprunt" text="Date emprunt" />
+                        <TableColumn fx:id="colDateRetour" text="Date retour" />
+                    </columns>
+                </TableView>
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Étudiant:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <ComboBox fx:id="comboEtudiant" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="250" />
+                    <Label text="Livre:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <ComboBox fx:id="comboLivre" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250" />
+                    <Label text="Date:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <DatePicker fx:id="dateEmprunt" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                </GridPane>
+                <HBox spacing="10">
+                    <Button text="Emprunter" onAction="#emprunterLivre" />
+                    <Button text="Retourner" onAction="#retournerLivre" />
+                    <Button text="Actualiser" onAction="#actualiserEmprunts" />
+                </HBox>
+            </VBox>
+        </Tab>
+        
+    </TabPane>
+    
+</VBox>

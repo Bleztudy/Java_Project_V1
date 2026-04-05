@@ -18,7 +18,7 @@ public class LecteurController {
     
     @FXML
     private Label totalPages;
-    
+    @SuppressWarnings("unused")
     private String titre;
     private String[] pages;
     private int currentPage = 0;

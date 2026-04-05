@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controller.AdminLoginController" stylesheets="@styles.css" style="-fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);">
+
+    <HBox style="-fx-padding: 20;">
+        <Button text="← Retour" onAction="#goBack" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
+    
+    <VBox alignment="CENTER" spacing="20" VBox.vgrow="ALWAYS" style="-fx-padding: 50;">
+        <VBox alignment="CENTER" spacing="20" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 40; -fx-max-width: 400;">
+            <Text text="🔐 Administration" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+            <Text text="Accès réservé au personnel" style="-fx-font-size: 14px; -fx-fill: #7f8c8d;"/>
+            
+            <TextField fx:id="usernameField" promptText="Nom d'utilisateur" style="-fx-padding: 12; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #bdc3c7; -fx-pref-width: 300;"/>
+            <PasswordField fx:id="passwordField" promptText="Mot de passe" style="-fx-padding: 12; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #bdc3c7; -fx-pref-width: 300;"/>
+            
+            <Button text="Se connecter" onAction="#handleLogin" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 12 30; -fx-background-radius: 25; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            
+            <Label fx:id="errorLabel" text="" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;"/>
+        </VBox>
+    </VBox>
+    
+</VBox>
