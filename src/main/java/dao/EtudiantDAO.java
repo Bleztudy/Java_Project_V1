@@ -1,52 +1,95 @@
 package dao;
 
 import model.Etudiant;
+import database.DatabaseConnection;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EtudiantDAO {
     
-    // Données fictives en attendant la base de données
-    private static List<Etudiant> etudiants = new ArrayList<>();
-    private static int nextId = 4;
-    
-    static {
-        etudiants.add(new Etudiant(1, "Dupont", "Jean", "jean.dupont@email.com"));
-        etudiants.add(new Etudiant(2, "Martin", "Sophie", "sophie.martin@email.com"));
-        etudiants.add(new Etudiant(3, "Bernard", "Lucas", "lucas.bernard@email.com"));
-        etudiants.add(new Etudiant(999, "Emprunteur", "Anonyme", "emprunt@bibliotech.com"));  // Étudiant fictif
-        nextId = 1000;
-    }
-    
     public List<Etudiant> getAllEtudiants() {
-        return new ArrayList<>(etudiants);
+        List<Etudiant> etudiants = new ArrayList<>();
+        String sql = "SELECT * FROM etudiant ORDER BY id";
+        
+        try (Statement stmt = DatabaseConnection.getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                Etudiant e = new Etudiant();
+                e.setId(rs.getInt("id"));
+                e.setNom(rs.getString("nom"));
+                e.setPrenom(rs.getString("prenom"));
+                e.setEmail(rs.getString("email"));
+                etudiants.add(e);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return etudiants;
     }
     
     public void ajouterEtudiant(Etudiant e) {
-        e.setId(nextId++);
-        etudiants.add(e);
+        String sql = "INSERT INTO etudiant (nom, prenom, email) VALUES (?, ?, ?)";
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, e.getNom());
+            pstmt.setString(2, e.getPrenom());
+            pstmt.setString(3, e.getEmail());
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
     
     public void modifierEtudiant(Etudiant e) {
-        for (int i = 0; i < etudiants.size(); i++) {
-            if (etudiants.get(i).getId() == e.getId()) {
-                etudiants.set(i, e);
-                break;
-            }
+        String sql = "UPDATE etudiant SET nom = ?, prenom = ?, email = ? WHERE id = ?";
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, e.getNom());
+            pstmt.setString(2, e.getPrenom());
+            pstmt.setString(3, e.getEmail());
+            pstmt.setInt(4, e.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
     
     public void supprimerEtudiant(int id) {
-        etudiants.removeIf(e -> e.getId() == id);
+        String sql = "DELETE FROM etudiant WHERE id = ?";
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
     
     public List<Etudiant> rechercherEtudiants(String motCle) {
-        return etudiants.stream()
-            .filter(e -> e.getNom().toLowerCase().contains(motCle.toLowerCase()) ||
-                         e.getPrenom().toLowerCase().contains(motCle.toLowerCase()) ||
-                         e.getEmail().toLowerCase().contains(motCle.toLowerCase()))
-            .collect(Collectors.toList());
+        List<Etudiant> etudiants = new ArrayList<>();
+        String sql = "SELECT * FROM etudiant WHERE nom LIKE ? OR prenom LIKE ? OR email LIKE ?";
+        
+        try (PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            String recherche = "%" + motCle + "%";
+            pstmt.setString(1, recherche);
+            pstmt.setString(2, recherche);
+            pstmt.setString(3, recherche);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                Etudiant e = new Etudiant();
+                e.setId(rs.getInt("id"));
+                e.setNom(rs.getString("nom"));
+                e.setPrenom(rs.getString("prenom"));
+                e.setEmail(rs.getString("email"));
+                etudiants.add(e);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return etudiants;
     }
 }
