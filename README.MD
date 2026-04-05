@@ -1,177 +1,164 @@
-## Règles Git
+# 📚 BiblioTech - Application de Gestion de Bibliothèque
 
-- Toujours faire git pull avant de coder
-- Ne pas modifier les fichiers des autres sans prévenir
-- Faire des commits clairs
+## Description
 
+BiblioTech est une application de gestion de bibliothèque universitaire développée avec JavaFX et MySQL. Elle permet la gestion des étudiants, des livres et des emprunts via une interface graphique moderne et intuitive.
 
-# 📚 Application JavaFX – Gestion de Bibliothèque
+## Technologies utilisées
 
-## 📌 Description du projet
+- **Java 17** - Langage de programmation
+- **JavaFX 21** - Interface graphique
+- **MySQL** - Base de données relationnelle
+- **Maven** - Gestion des dépendances et build
+- **CSS** - Styling de l'interface
 
-Ce projet consiste à développer une application de gestion de bibliothèque universitaire.
-L’objectif est de permettre la gestion des livres, des étudiants et des emprunts à travers une interface graphique développée avec JavaFX et connectée à une base de données MySQL via JDBC.
+## Fonctionnalités
 
----
+### 👥 Gestion des étudiants
+- Ajouter, modifier, supprimer des étudiants
+- Recherche d'étudiants par nom, prénom ou email
+- Affichage en tableau interactif
 
-## 🎯 Objectifs pédagogiques
-
-Ce projet permet de :
-
-* Créer une interface graphique avec JavaFX
-* Manipuler une base de données relationnelle avec MySQL
-* Utiliser JDBC pour connecter Java à la base de données
-* Implémenter des opérations CRUD (Create, Read, Update, Delete)
-* Gérer des relations entre plusieurs tables
-
----
-
-## 🛠️ Technologies utilisées
-
-* Java 17+
-* JavaFX
-* MySQL
-* JDBC
-* Maven
-
----
-
-## 🗄️ Structure de la base de données
-
-### 📘 Table `livre`
-
-* id : identifiant du livre
-* titre : titre du livre
-* auteur : auteur du livre
-* categorie : catégorie
-* disponible : disponibilité (true/false)
-
-### 👨‍🎓 Table `etudiant`
-
-* id : identifiant
-* nom : nom
-* prenom : prénom
-* email : email
-
-### 🔄 Table `emprunt`
-
-* id : identifiant
-* id_etudiant : référence à l’étudiant
-* id_livre : référence au livre
-* date_emprunt : date d’emprunt
-* date_retour : date de retour
-
----
-
-## 🖥️ Fonctionnalités principales
-
-### 📚 Gestion des livres
-
-* Ajouter un livre
-* Modifier un livre
-* Supprimer un livre
-* Rechercher un livre
-* Afficher la liste des livres
-
-### 👨‍🎓 Gestion des étudiants
-
-* Ajouter un étudiant
-* Modifier un étudiant
-* Supprimer un étudiant
-* Afficher la liste des étudiants
+### 📖 Gestion des livres
+- Ajouter, modifier, supprimer des livres
+- Upload d'images pour chaque livre
+- Recherche par titre, auteur ou catégorie
+- Filtrage par catégorie
+- Catalogue avec vignettes et images
 
 ### 🔄 Gestion des emprunts
+- Emprunter un livre (création automatique d'un étudiant fictif)
+- Retourner un livre
+- Liste des emprunts en cours
+- Validation des dates de retour (max 7 jours)
+- Empêche l'emprunt d'un livre déjà pris
 
-* Emprunter un livre
-* Retourner un livre
-* Empêcher l’emprunt d’un livre indisponible
-* Afficher les emprunts en cours
+### 🔐 Administration
+- Page de connexion sécurisée
+- Dashboard admin avec 3 onglets (Étudiants, Livres, Emprunts)
+- Thèmes personnalisables (Clair, Sombre, Océan)
+- Affichage des dates de connexion
 
----
+### 🏠 Page d'accueil
+- Carrousel animé avec dégradés de couleurs
+- Statistiques en temps réel (livres, étudiants, emprunts)
+- Navigation simplifiée
 
-## 🧱 Structure du projet
+### 📖 Lecteur de livres
+- Fenêtre dédiée avec pagination
+- Navigation page précédente/suivante
+- Saut de page direct
 
-```
-java_project/
- ├── .mvn/
- ├── src/
- │   ├── main/
- │   │   ├── java/
- │   │   │   ├── model/
- │   │   │   │   ├── Livre.java
- │   │   │   │   ├── Etudiant.java
- │   │   │   │   └── Emprunt.java
- │   │   │   │
- │   │   │   ├── dao/
- │   │   │   │   ├── LivreDAO.java
- │   │   │   │   ├── EtudiantDAO.java
- │   │   │   │   └── EmpruntDAO.java
- │   │   │   │
- │   │   │   ├── controller/
- │   │   │   │   └── BibliothequeController.java
- │   │   │   │
- │   │   │   ├── database/
- │   │   │   │   └── DatabaseConnection.java
- │   │   │   │
- │   │   │   └── Main.java
- │   │   │
- │   │   └── resources/
- │   │       └── view/
- │   │           └── bibliotheque.fxml
- ├── target/
- ├── pom.xml
- ├── README.md
- └── database.sql
+## Structure du projet
+src/main/java/
+├── controller/ # Contrôleurs JavaFX
+│ ├── AccueilController.java
+│ ├── AdminDashboardController.java
+│ ├── AdminLoginController.java
+│ ├── CatalogueController.java
+│ └── LecteurController.java
+├── dao/ # Accès aux données
+│ ├── AdminDAO.java
+│ ├── EmpruntDAO.java
+│ ├── EtudiantDAO.java
+│ └── LivreDAO.java
+├── database/ # Connexion MySQL
+│ └── DatabaseConnection.java
+├── model/ # Entités
+│ ├── Emprunt.java
+│ ├── Etudiant.java
+│ └── Livre.java
+├── utils/ # Utilitaires
+│ ├── SceneManager.java
+│ └── ThemeManager.java
+├── exceptions/ # Exceptions personnalisées
+└── main/ # Point d'entrée
+└── Main.java
 
-```
+src/main/resources/
+├── view/ # Fichiers FXML
+│ ├── accueil.fxml
+│ ├── admin_dashboard.fxml
+│ ├── admin_login.fxml
+│ ├── catalogue.fxml
+│ └── lecteur.fxml
+├── images/ # Images
+│ ├── books/ # Images des livres
+│ └── carousel/ # Images du carrousel
+└── styles.css # Styles CSS
 
----
+## Installation
 
-## 🚀 Installation et exécution
+### Prérequis
 
-### 1. Cloner le projet
+- Java 17 ou supérieur
+- Maven
+- MySQL (WampServer, XAMPP ou serveur distant)
 
-```
-git clone https://github.com/Bleztudy/Java_Project.git
-```
+### Étapes d'installation
 
-### 2. Configurer la base de données
+1. **Cloner le dépôt**
+```bash
+git clone https://github.com/Bleztudy/Java_Project_V1.git
+cd Java_Project_V1
+Importer la base de données
 
-* Lancer MySQL (via WampServer ou autre)
-* Importer le fichier `database.sql`
+Ouvrir phpMyAdmin
 
-### 3. Configurer la connexion
+Créer une base de données bibliotech
 
-Modifier les informations dans :
+Importer le fichier database.sql
 
-```
-database/DatabaseConnection.java
-```
+Configurer la connexion MySQL
 
-### 4. Lancer l’application
+Modifier src/main/java/database/DatabaseConnection.java
 
-* Ouvrir le projet avec VS Code ou IntelliJ
-* Exécuter la classe `Main.java`
+Renseigner vos identifiants MySQL
 
----
+Compiler et lancer l'application
 
-## 👥 Organisation du travail
 
-* Model : gestion des classes métiers (Livre, Etudiant, Emprunt)
-* DAO : accès aux données (CRUD)
-* Controller : logique de l’application
-* View : interface graphique JavaFX
+mvn clean compile
+mvn javafx:run
+Identifiants de connexion
+Rôle	Identifiant	Mot de passe
+Administrateur	admin	admin123
+Bibliothécaire	bibliothecaire	biblio2024
+Base de données distante (optionnelle)
+Une base de données distante est disponible pour les tests :
 
----
+Host : sql5.freesqldatabase.com
 
-## ⚠️ Règles de collaboration (Git)
+Port : 3306
 
-* Toujours faire `git pull` avant de commencer
-* Faire des commits clairs
-* Ne pas modifier le code des autres sans prévenir
+Database : sql5822300
 
----
+Username : sql5822300
 
-## 📌 Auteur
+Password : (contacter l'administrateur)
 
-Projet réalisé dans le cadre d’un travail académique en JavaFX et JDBC.
+Dépendances Maven
+xml
+<dependencies>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>21</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-fxml</artifactId>
+        <version>21</version>
+    </dependency>
+    <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>8.0.33</version>
+    </dependency>
+</dependencies>
+
+Version
+1.0.0 - Avril 2026
+
+Licence
+Projet universitaire - Tous droits réservés
