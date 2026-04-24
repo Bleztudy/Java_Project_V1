@@ -5,9 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:mysql://sql5.freesqldatabase.com:3306/sql5822300";
-    private static final String USER = "sql5822300";
-    private static final String PASSWORD = "thwNnv35sI";
+    // Correction : sql3 au lieu de sql5
+    private static final String URL = "jdbc:mysql://sql3.freesqldatabase.com:3306/sql3824281";
+    private static final String USER = "sql3824281";
+    private static final String PASSWORD = "vsSTmAkuMU";
     
     private static Connection connection = null;
     

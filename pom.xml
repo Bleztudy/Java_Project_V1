@@ -29,7 +29,6 @@
             <version>${javafx.version}</version>
         </dependency>
         
-        <!-- MySQL Connector - AJOUTER CECI -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
